@@ -8,7 +8,8 @@ import torchvision.transforms.functional as TF
 import torch
 from torch.nn import functional as F
 import pytorch_lightning as pl
-from plot_utils import visualize_img_depth
+from plot_utils import visualize_img_depth, visualize_img_label, visualize_img_label_depth
+import config
 
 
 '''
@@ -73,10 +74,11 @@ class NYUv2Dataset(Dataset):
     def get_training_augmentation(self):
         train_augmentation = A.Compose([
             A.RandomScale(scale_limit=(-0.5, +0.75), p=1), # Relates to Scaling between 0.5 and 1.75
-            A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=0), # If the image gets smaller than 480x640    
+            A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX), # If the image gets smaller than 480x640    
             A.RandomCrop(height=480, width=640, p=1),
             A.HorizontalFlip(p=0.5),
-        ])
+        ])#,
+        #additional_targets={'label' : 'image', 'depth' : 'image'})
         return train_augmentation
 
     def __getitem__(self, index):
@@ -87,8 +89,8 @@ class NYUv2Dataset(Dataset):
         # In case of training, apply data augmentation (and ToTensor)
         if self.split == 'train':
             train_augmentation = self.get_training_augmentation()
-            transformed = train_augmentation(image=image, label=label, depth=depth)
-            image, label, depth = transformed['image'], transformed['label'], transformed['depth']
+            transformed = train_augmentation(image=image, masks=[label, depth])
+            image, label, depth = transformed['image'], transformed['masks'][0], transformed['masks'][1]
             image = TF.to_tensor(image)
             label = torch.tensor(label, dtype=torch.long).unsqueeze(0)
             depth = torch.tensor(depth, dtype=torch.float).unsqueeze(0)
@@ -105,10 +107,13 @@ class NYUv2Dataset(Dataset):
 if __name__ == '__main__':
     # Test the dataset
     dataset = NYUv2Dataset(split='train')
-    print(len(dataset))
-    image, label, depth = dataset[0]
-    print(image.shape)
-    print(label.shape)
-    print(depth.shape)
+
+    for i in range(len(dataset)):
+        image, label, depth = dataset[i]
+        visualize_img_label_depth(image, label, label, depth, depth, filename='test' + str(i) + '.png')
+        if i == 50:
+            break
+
+
 
     
