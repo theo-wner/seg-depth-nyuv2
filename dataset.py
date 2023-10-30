@@ -8,8 +8,8 @@ import torchvision.transforms.functional as TF
 import torch
 from torch.nn import functional as F
 import pytorch_lightning as pl
-import config
 from plot_utils import visualize_img_depth
+
 
 '''
 Defines classes for the NYUv2 dataset
