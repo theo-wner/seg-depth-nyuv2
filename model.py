@@ -83,10 +83,10 @@ class SegDepthFormer(pl.LightningModule):
         depth_preds = depth_preds[valid_mask]
         depths = depths[valid_mask]
 
-        seg_metrics = self.seg_metrics(torch.softmax(seg_logits, dim=1), labels.squeeze(dim=1))
+        self.seg_metrics(torch.softmax(seg_logits, dim=1), labels.squeeze(dim=1))
         depth_metrics = compute_depth_metrics(depth_preds, depths)
 
-        self.log('val_iou', seg_metrics, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_iou', self.seg_metrics, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         
         self.log('val_rmse', depth_metrics[0], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('val_abs_rel', depth_metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
