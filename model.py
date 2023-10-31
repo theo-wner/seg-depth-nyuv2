@@ -38,6 +38,7 @@ class SegDepthFormer(pl.LightningModule):
         self.optimizer = torch.optim.AdamW(params=[
             {'params': self.model.segformer.parameters(), 'lr': config.LEARNING_RATE},
             {'params': self.model.decode_head.parameters(), 'lr': 10 * config.LEARNING_RATE},
+            {'params': self.model.depth_head.parameters(), 'lr': 10 * config.LEARNING_RATE}
         ], lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
 
 
