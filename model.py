@@ -6,27 +6,33 @@ import pytorch_lightning as pl
 import math
 from transformers import SegformerForSemanticSegmentation, SegformerConfig
 import config
-from utils import PolyLR
-from utils import RMSLELoss
-from utils import compute_depth_metrics
+from train_utils import SegformerForSegDepth
+from train_utils import PolyLR
+from train_utils import RMSLELoss
+from train_utils import compute_depth_metrics
 
 """
 Defines the model
 """
 
-class DepthFormer(pl.LightningModule):
+class SegDepthFormer(pl.LightningModule):
 
     def __init__(self):
 
         # Configure the model
         super().__init__()
 
-        model_config = SegformerConfig.from_pretrained(f'nvidia/mit-{config.BACKBONE}', num_labels=config.NUM_CLASSES, semantic_loss_ignore_index = config.IGNORE_INDEX, return_dict=False)
-        self.model = SegformerForSemanticSegmentation(model_config) # this does not load the imagenet weights yet.
+        model_config = SegformerConfig.from_pretrained(f'nvidia/mit-{config.BACKBONE}', num_labels=config.NUM_CLASSES, semantic_loss_ignore_index=config.IGNORE_INDEX, return_dict=False)
+        self.model = SegformerForSegDepth(model_config) # this does not load the imagenet weights yet.
         self.model = self.model.from_pretrained(f'nvidia/mit-{config.BACKBONE}', num_labels=config.NUM_CLASSES, return_dict=False)  # this loads the weights
 
-        # Initialize the loss function
-        self.loss_fn = RMSLELoss()
+        # Initialize the losses
+        self.seg_loss = nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
+        self.depth_loss = RMSLELoss()
+
+        # Initialize the metrics
+        self.seg_metrics = torchmetrics.JaccardIndex(task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
+        self.depth_metrics = compute_depth_metrics
 
         # Initialize the optimizer
         self.optimizer = torch.optim.AdamW(params=[
@@ -47,42 +53,44 @@ class DepthFormer(pl.LightningModule):
     
 
     def training_step(self, batch, batch_index):
-        images, depths = batch
+        images, labels, depths = batch
 
-        _, preds = self.model(images, depths.squeeze(dim=1)) # _ because the model computes the loss internally but we compute it manually below, depths are also merely needed as dummies
-        
-        preds = torch.nn.functional.interpolate(preds, size=images.shape[-2:], mode="bilinear", align_corners=False)    # upsample preds to input image size (SegFormer outputs h/4 and w/4 by default, see paper)
-
-        preds = F.relu(preds, inplace=True)
+        seg_logits, depth_preds = self.model(images)
+        seg_logits = torch.nn.functional.interpolate(seg_logits, size=images.shape[-2:], mode="bilinear", align_corners=False)    # upsample preds to input image size (SegFormer outputs h/4 and w/4 by default, see paper)
+        depth_preds = torch.nn.functional.interpolate(depth_preds, size=images.shape[-2:], mode="bilinear", align_corners=False)    
         
         valid_mask = (depths > 1e-3) & (depths < 10)    # common practice: https://arxiv.org/pdf/2207.04535v2.pdf
         
-        loss = self.loss_fn(preds, depths, valid_mask)
+        seg_loss = self.seg_loss(seg_logits, labels.squeeze(dim=1))
+        depth_loss = self.depth_loss(depth_preds, depths, valid_mask)
+        total_loss = seg_loss + depth_loss
         
-        self.log('loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('seg_loss', seg_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('depth_loss', depth_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('total_loss', total_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
-        return loss
+        return total_loss
     
 
     def validation_step(self, batch, batch_index):
-        images, depths = batch
+        images, labels, depths = batch
 
-        _, preds = self.model(images, depths.squeeze(dim=1)) # _ because the model computes the loss internally but we compute it manually below, depths are also merely needed as dummies
+        seg_logits, depth_preds = self.model(images)
+        seg_logits = torch.nn.functional.interpolate(seg_logits, size=images.shape[-2:], mode="bilinear", align_corners=False)    # upsample preds to input image size (SegFormer outputs h/4 and w/4 by default, see paper)
+        depth_preds = torch.nn.functional.interpolate(depth_preds, size=images.shape[-2:], mode="bilinear", align_corners=False)    
         
-        preds = torch.nn.functional.interpolate(preds, size=images.shape[-2:], mode="bilinear", align_corners=False)    # upsample preds to input image size (SegFormer outputs h/4 and w/4 by default, see paper)
-
-        preds = F.relu(preds, inplace=True)
-
-        valid_mask = (depths > 1e-3) & (depths < 10)
-
-        preds = preds[valid_mask]
+        valid_mask = (depths > 1e-3) & (depths < 10)    # common practice: https://arxiv.org/pdf/2207.04535v2.pdf
+        depth_preds = depth_preds[valid_mask]
         depths = depths[valid_mask]
 
-        metrics = compute_depth_metrics(preds, depths)
+        seg_metrics = self.seg_metrics(torch.softmax(seg_logits, dim=1), labels.squeeze(dim=1))
+        depth_metrics = compute_depth_metrics(depth_preds, depths)
+
+        self.log('val_iou', seg_metrics, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         
-        self.log('val_rmse', metrics[0], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('val_abs_rel', metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        self.log('val_log10', metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        self.log('val_d1', metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('val_d2', metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('val_d3', metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_rmse', depth_metrics[0], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_abs_rel', depth_metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('val_log10', depth_metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('val_d1', depth_metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_d2', depth_metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_d3', depth_metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)

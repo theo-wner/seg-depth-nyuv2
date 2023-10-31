@@ -1,11 +1,40 @@
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
+from transformers import SegformerForSemanticSegmentation, SegformerDecodeHead
 from torch.optim.lr_scheduler import _LRScheduler
+
 
 """
 Defines utility functions and classes
 """
+
+class SegformerForSegDepth(SegformerForSemanticSegmentation):
+    '''
+    Extension of SegformerForSemanticSegmentation that also outputs the depth
+    '''
+    def __init__(self, config):
+        super().__init__(config)
+
+        self.config.num_labels = 1
+        self.depth_head = SegformerDecodeHead(self.config) # Add additional DecoadeHead for Depth Estimation
+
+        # Initialize weights and apply final processing
+        self.post_init()
+
+    def forward(self, images):
+        outputs = self.segformer(
+            images,
+            output_hidden_states=True,
+            return_dict=True,
+        )
+
+        segmentation_logits = self.decode_head(outputs.hidden_states)
+        depth_logits = self.depth_head(outputs.hidden_states)
+
+        return segmentation_logits, F.relu(depth_logits) # ReLU to ensure positive depth values
+
 
 # LR = Initial_LR * (1 - iter / max_iter)^0.9
 class PolyLR(_LRScheduler):

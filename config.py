@@ -7,7 +7,7 @@ Defines the Hyperparameters as command line arguments
 parser = argparse.ArgumentParser(description='Parser')
 
 parser.add_argument('--backbone', type=str, default='b5', help='Backbone of the model')
-parser.add_argument('--batch_size', type=int, default=8, help='Batch Size')
+parser.add_argument('--batch_size', type=int, default=4, help='Batch Size')
 parser.add_argument('--num_workers', type=int, default=4, help='Number of Workers')
 parser.add_argument('--num_epochs', type=int, default=100, help='Number of Epochs')
 parser.add_argument('--learning_rate', type=float, default=6e-5, help='Learning Rate')
@@ -20,7 +20,7 @@ parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint')
 args = parser.parse_args()
 
 # Dataset
-NUM_CLASSES = 1 # For Depth Estimation
+NUM_CLASSES = 40
 IGNORE_INDEX = 255
 NUMBER_TRAIN_IMAGES = 795
 NUMBER_VAL_IMAGES = 654
