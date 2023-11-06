@@ -2,13 +2,14 @@ import os
 import cv2
 from PIL import Image
 import numpy as np
+from tqdm import tqdm
 from torch.utils.data import Dataset, DataLoader
 import albumentations as A
 import torchvision.transforms.functional as TF
 import torch
 from torch.nn import functional as F
 import pytorch_lightning as pl
-from plot_utils import visualize_img_depth, visualize_img_label, visualize_img_label_depth
+from plot_utils import visualize_img_gts, visualize_img_depth, visualize_img_label, visualize_img_label_depth
 import config
 
 
@@ -106,14 +107,14 @@ class NYUv2Dataset(Dataset):
 
 if __name__ == '__main__':
     # Test the dataset
-    dataset = NYUv2Dataset(split='train')
+    dataset = NYUv2Dataset(split='test')
 
-    for i in range(len(dataset)):
+    for i in tqdm(range(50)):
         image, label, depth = dataset[i]
-        visualize_img_label_depth(image, label, label, depth, depth, filename='test' + str(i) + '.png')
-        if i == 50:
-            break
-
+        visualize_img_gts(image, label, depth, filename=f'test_{i}_gts.png')
+        #visualize_img_depth(image, depth, depth, filename=f'test_{i}_depth.png')
+        #visualize_img_label(image, label, label, filename=f'test_{i}_label.png')
+        #visualize_img_label_depth(image, label, label, depth, depth, filename=f'test_{i}_all.png')
 
 
     
