@@ -6,3 +6,4 @@ __pycache__/
 *.png
 *.pth
 *.ckpt
+delete_or_create.py

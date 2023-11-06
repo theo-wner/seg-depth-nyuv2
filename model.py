@@ -58,7 +58,8 @@ class SegDepthFormer(pl.LightningModule):
 
         seg_logits, depth_preds = self.model(images)
         seg_logits = torch.nn.functional.interpolate(seg_logits, size=images.shape[-2:], mode="bilinear", align_corners=False)    # upsample preds to input image size (SegFormer outputs h/4 and w/4 by default, see paper)
-        depth_preds = torch.nn.functional.interpolate(depth_preds, size=images.shape[-2:], mode="bilinear", align_corners=False)    
+        depth_preds = torch.nn.functional.interpolate(depth_preds, size=images.shape[-2:], mode="bilinear", align_corners=False)
+        depth_preds = F.relu(depth_preds, inplace=True) 
         
         valid_mask = (depths > 1e-3) & (depths < 10)    # common practice: https://arxiv.org/pdf/2207.04535v2.pdf
         
@@ -78,7 +79,8 @@ class SegDepthFormer(pl.LightningModule):
 
         seg_logits, depth_preds = self.model(images)
         seg_logits = torch.nn.functional.interpolate(seg_logits, size=images.shape[-2:], mode="bilinear", align_corners=False)    # upsample preds to input image size (SegFormer outputs h/4 and w/4 by default, see paper)
-        depth_preds = torch.nn.functional.interpolate(depth_preds, size=images.shape[-2:], mode="bilinear", align_corners=False)    
+        depth_preds = torch.nn.functional.interpolate(depth_preds, size=images.shape[-2:], mode="bilinear", align_corners=False)   
+        depth_preds = F.relu(depth_preds, inplace=True) 
         
         valid_mask = (depths > 1e-3) & (depths < 10)    # common practice: https://arxiv.org/pdf/2207.04535v2.pdf
         depth_preds = depth_preds[valid_mask]
