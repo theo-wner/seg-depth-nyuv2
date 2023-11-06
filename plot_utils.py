@@ -361,7 +361,8 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     plt.yticks([])
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
-    plt.imshow(gt_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.imshow(image)
+    plt.imshow(gt_depth.squeeze().numpy(), cmap=cmap, norm=norm, alpha=0.9)
 
     # --------------------------------------------------------------------------------------------
     # Prediction Depth Map
@@ -371,7 +372,8 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     plt.yticks([])
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
-    plt.imshow(pr_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.imshow(image)
+    plt.imshow(pr_depth.squeeze().numpy(), cmap=cmap, norm=norm, alpha=0.9)
     '''
     # --------------------------------------------------------------------------------------------
     # Legend

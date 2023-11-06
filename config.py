@@ -16,6 +16,7 @@ parser.add_argument('--precision', type=str, default='16-mixed', help='Precision
 parser.add_argument('--devices', type=int, nargs='+', default=[1], help='Devices')
 parser.add_argument('--cpu_usage', type=bool, default=False, help='CPU Usage')
 parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint')
+parser.add_argument('--augmentations', type=bool, default=True, help='Augmentations')
 
 args = parser.parse_args()
 
@@ -38,3 +39,4 @@ PRECISION = args.precision
 DEVICES = args.devices
 CPU_USAGE = args.cpu_usage
 CHECKPOINT = args.checkpoint
+AUGMENTATIONS = args.augmentations

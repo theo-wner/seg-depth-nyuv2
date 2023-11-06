@@ -89,9 +89,10 @@ class NYUv2Dataset(Dataset):
 
         # In case of training, apply data augmentation (and ToTensor)
         if self.split == 'train':
-            train_augmentation = self.get_training_augmentation()
-            transformed = train_augmentation(image=image, masks=[label, depth])
-            image, label, depth = transformed['image'], transformed['masks'][0], transformed['masks'][1]
+            if config.AUGMENTATIONS:
+                train_augmentation = self.get_training_augmentation()
+                transformed = train_augmentation(image=image, masks=[label, depth])
+                image, label, depth = transformed['image'], transformed['masks'][0], transformed['masks'][1]
             image = TF.to_tensor(image)
             label = torch.tensor(label, dtype=torch.long).unsqueeze(0)
             depth = torch.tensor(depth, dtype=torch.float).unsqueeze(0)
