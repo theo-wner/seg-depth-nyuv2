@@ -19,8 +19,9 @@ class SegDepthFormer(pl.LightningModule):
 
     def __init__(self):
 
-        # Configure the model
         super().__init__()
+
+        pl.seed_everything(42)       # reproducibility
 
         model_config = SegformerConfig.from_pretrained(f'nvidia/mit-{config.BACKBONE}', num_labels=config.NUM_CLASSES, semantic_loss_ignore_index=config.IGNORE_INDEX, return_dict=False)
         self.model = SegformerForSegDepth(model_config) # this does not load the imagenet weights yet.
