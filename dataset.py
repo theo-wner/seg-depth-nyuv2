@@ -78,8 +78,7 @@ class NYUv2Dataset(Dataset):
             A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX), # If the image gets smaller than 480x640    
             A.RandomCrop(height=480, width=640, p=1),
             A.HorizontalFlip(p=0.5),
-        ])#,
-        #additional_targets={'label' : 'image', 'depth' : 'image'})
+        ])
         return train_augmentation
 
     def __getitem__(self, index):
@@ -108,7 +107,7 @@ class NYUv2Dataset(Dataset):
 
 if __name__ == '__main__':
     # Test the dataset
-    dataset = NYUv2Dataset(split='test')
+    dataset = NYUv2Dataset(split='train')
 
     for i in tqdm(range(50)):
         image, label, depth = dataset[i]
