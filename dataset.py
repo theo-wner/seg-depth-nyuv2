@@ -74,7 +74,7 @@ class NYUv2Dataset(Dataset):
     
     def get_training_augmentation(self):
         train_augmentation = A.Compose([
-            A.RandomScale(scale_limit=(-0.5, +0.75), p=1), # Relates to Scaling between 0.5 and 1.75
+            A.RandomScale(scale_limit=(10, 10), p=1), # Relates to Scaling between 0.5 and 1.75
             A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX), # If the image gets smaller than 480x640    
             A.RandomCrop(height=480, width=640, p=1),
             A.HorizontalFlip(p=0.5),
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     # Test the dataset
     dataset = NYUv2Dataset(split='train')
 
-    for i in tqdm(range(50)):
+    for i in tqdm(range(10)):
         image, label, depth = dataset[i]
         visualize_img_gts(image, label, depth, filename=f'test_{i}_gts.png')
         #visualize_img_depth(image, depth, depth, filename=f'test_{i}_depth.png')

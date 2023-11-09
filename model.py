@@ -67,10 +67,14 @@ class SegDepthFormer(pl.LightningModule):
         seg_loss = self.seg_loss(seg_logits, labels.squeeze(dim=1))
         depth_loss = self.depth_loss(depth_preds, depths, valid_mask)
         total_loss = seg_loss + depth_loss
-        
+
+        #self.seg_metrics(torch.softmax(seg_logits, dim=1), labels.squeeze(dim=1))
+
         self.log('seg_loss', seg_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('depth_loss', depth_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('total_loss', total_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+
+        #self.log('train_iou', self.seg_metrics, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
         return total_loss
     
@@ -91,10 +95,9 @@ class SegDepthFormer(pl.LightningModule):
         depth_metrics = compute_depth_metrics(depth_preds, depths)
 
         self.log('val_iou', self.seg_metrics, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        
         self.log('val_rmse', depth_metrics[0], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('val_abs_rel', depth_metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        self.log('val_log10', depth_metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        self.log('val_d1', depth_metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('val_d2', depth_metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        self.log('val_d3', depth_metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        #self.log('val_abs_rel', depth_metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        #self.log('val_log10', depth_metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        #self.log('val_d1', depth_metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        #self.log('val_d2', depth_metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        #self.log('val_d3', depth_metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)

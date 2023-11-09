@@ -14,7 +14,7 @@ if __name__ == '__main__':
     transformers.logging.set_verbosity_error()
 
     # Initialize the logger
-    logger = TensorBoardLogger('logs', name='segdepthformer')
+    logger = TensorBoardLogger('logs', name=config.NAME, version=config.VERSION)
 
     # Initialize the data module
     data_module = NYUv2DataModule(batch_size=config.BATCH_SIZE, num_workers=config.NUM_WORKERS)

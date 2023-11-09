@@ -1,0 +1,7 @@
+General: To Test whether the Augmentations work at all
+        --> Becuase using them makes no difference to not using them
+
+weird_augs:     - bs 8
+                - 400 Epochs
+                - Trying if augmentations make a difference by using very weird ones
+                - Scaling to 5 in every image --> Way too close

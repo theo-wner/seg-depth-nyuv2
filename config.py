@@ -17,6 +17,8 @@ parser.add_argument('--devices', type=int, nargs='+', default=[1], help='Devices
 parser.add_argument('--cpu_usage', type=bool, default=False, help='CPU Usage')
 parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint')
 parser.add_argument('--augmentations', type=bool, default=True, help='Augmentations')
+parser.add_argument('--name', type=str, default='default', help='Log Directory Name')
+parser.add_argument('--version', type=str, default=None, help='Log Version')
 
 args = parser.parse_args()
 
@@ -40,3 +42,5 @@ DEVICES = args.devices
 CPU_USAGE = args.cpu_usage
 CHECKPOINT = args.checkpoint
 AUGMENTATIONS = args.augmentations
+NAME = args.name
+VERSION = args.version
