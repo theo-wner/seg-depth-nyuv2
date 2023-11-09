@@ -68,13 +68,9 @@ class SegDepthFormer(pl.LightningModule):
         depth_loss = self.depth_loss(depth_preds, depths, valid_mask)
         total_loss = seg_loss + depth_loss
 
-        #self.seg_metrics(torch.softmax(seg_logits, dim=1), labels.squeeze(dim=1))
-
         self.log('seg_loss', seg_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('depth_loss', depth_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('total_loss', total_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-
-        #self.log('train_iou', self.seg_metrics, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
         return total_loss
     

@@ -13,7 +13,7 @@ import shutil
 #os.rmdir('./Abbildungen/')
 
 # Verzeichnis und seine Inhalte löschen
-shutil.rmtree('logs/aug_test/no_augs/')
+shutil.rmtree('logs/aug_test/weird_augs')
 
 # Neues Verzeichnis erstellen
 #os.mkdir('./extract_dataset/class_labels/')
