@@ -148,7 +148,7 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
 
 
 '''
-Creates a 5-Tuple of image and gt label, pr label, gt depth and pr depth
+Creates a Triple of image, gt depth and pr depth
 '''
 def visualize_img_depth(image, gt_depth, pr_depth, filename='test.png'):
     # --------------------------------------------------------------------------------------------
@@ -219,13 +219,13 @@ def visualize_img_gts(image, gt_label, gt_depth, filename='test.png'):
     # --------------------------------------------------------------------------------------------
     # place subplots
     # --------------------------------------------------------------------------------------------
-    plt.figure(figsize=(16, 3.88))
+    plt.figure(figsize=(16, 4.5))
 
     # Leave everything as it is!!!
     # If then only adjust the wspace value!!!
     plt.subplots_adjust(left=0,
                         bottom=0,
-                        right=1,
+                        right=0.79,
                         top=1,
                         wspace=0.05,
                         hspace=0.0)
@@ -274,6 +274,45 @@ def visualize_img_gts(image, gt_label, gt_depth, filename='test.png'):
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
     plt.imshow(gt_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+
+    # --------------------------------------------------------------------------------------------
+    # Legend
+    # --------------------------------------------------------------------------------------------
+    legend_elements = [mpatches.Patch(facecolor=labels_and_colors[label],
+                             edgecolor='black',
+                             label=label) for label in labels_and_colors]
+    plt.legend(handles=legend_elements,
+               loc='center left',
+               bbox_to_anchor=(1.35, 0.5))
+    
+    # Set Legend Title
+    #plt.gca().get_legend().set_title('Annotationen')
+
+    # Set the legend font size
+    #plt.gca().get_legend().get_title().set_fontsize('medium')
+    
+    # Make legend bold
+    #plt.setp(plt.gca().get_legend().get_title(), fontweight='bold')
+
+    # Set the font size of the labels and font type
+    for label in plt.gca().get_legend().get_texts():
+        label.set_fontsize('xx-large')
+        #label.set_fontfamily('serif')
+
+    # Make the font of my legend look like latex
+    #plt.gca().get_legend().get_title().set_fontfamily('serif')
+
+    # --------------------------------------------------------------------------------------------
+    # Colorbar
+    # --------------------------------------------------------------------------------------------
+    # Colorbar
+    cbar = plt.colorbar(plt.cm.ScalarMappable(cmap=cmap, norm=norm), 
+                    ax=plt.gcf().get_axes(), 
+                    orientation='vertical', 
+                    pad=0.02,
+                    fraction=0.0165)
+    cbar.set_label('Tiefe (m)', size='xx-large')
+    cbar.ax.tick_params(labelsize='xx-large')
 
     # --------------------------------------------------------------------------------------------
     # Save Figure
