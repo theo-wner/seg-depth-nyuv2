@@ -1,7 +1,8 @@
 General: To Test whether the Augmentations work at all
         --> Becuase using them makes no difference to not using them
 
-weird_augs:     - bs 8
+weird_augs:     - backbone b5
+                - bs 8
                 - 400 Epochs
                 - Trying if augmentations make a difference by using very weird ones
                 - Scaling to 5 in every image --> Way too close
@@ -9,18 +10,32 @@ weird_augs:     - bs 8
                 --> break
                 --> checkpoint deleted
 
-no_augs:        - bs 8
+no_augs:        - backbone b5
+                - bs 8
                 - 400 Epochs
                 - Doing a reference run without any training augmentations (all uncommented)
 
-normal_augs:    - bs 8
+normal_augs:    - backbone b5
+                - bs 8
                 - 400 Epochs
                 - Normal Augmentations: A.RandomScale(scale_limit=(10, 10), p=1), # Relates to Scalings between 0.5 and 1.75
                                         A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX), # If the image gets smaller than 480x640    
                                         A.RandomCrop(height=480, width=640, p=1),
                                         A.HorizontalFlip(p=0.5),
 
---> Bug discovered: Cmd Line Arguments werent working properly with bools --> Fixed, now it makes a difference!
+                --> Bug discovered: Cmd Line Arguments werent working properly with bools --> Fixed, now it makes a difference!
+
+no_augs_b0:     - backbone b0
+                - bs 8
+                - 800 Epochs
+
+normal_augs_b0: - backbone b0
+                - bs 8
+                - 800 Epochs
+                - Normal Augmentations
+                - To check how augmentation usage differs with smaller backbone
+
+
 
 
 
