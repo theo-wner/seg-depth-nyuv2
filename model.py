@@ -71,8 +71,6 @@ class SegDepthFormer(pl.LightningModule):
         depth_loss = self.depth_loss(depth_preds, depths, valid_mask)
         total_loss = seg_loss + depth_loss
 
-        print(self.optimizer.param_groups[0]['lr'])
-
         self.log('seg_loss', seg_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('depth_loss', depth_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('total_loss', total_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
@@ -99,11 +97,11 @@ class SegDepthFormer(pl.LightningModule):
         self.log('val_iou', self.seg_iou, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('val_calibration_error', self.seg_calibration_error, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('val_rmse', depth_metrics[0], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        #self.log('val_abs_rel', depth_metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        #self.log('val_log10', depth_metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        #self.log('val_d1', depth_metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        #self.log('val_d2', depth_metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        #self.log('val_d3', depth_metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_abs_rel', depth_metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('val_log10', depth_metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('val_d1', depth_metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_d2', depth_metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_d3', depth_metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
 
 class SegFormer(pl.LightningModule):
@@ -127,7 +125,8 @@ class SegFormer(pl.LightningModule):
         ], lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
 
         # Initialize the metrics
-        self.metrics = torchmetrics.JaccardIndex(task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
+        self.iou = torchmetrics.JaccardIndex(task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
+        self.calibration_error = torchmetrics.CalibrationError(num_bins=10, task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
 
 
     def configure_optimizers(self):
@@ -158,9 +157,11 @@ class SegFormer(pl.LightningModule):
         
         upsampled_logits = torch.nn.functional.interpolate(logits, size=images.shape[-2:], mode="bilinear", align_corners=False)    # upsample logits to input image size (SegFormer outputs h/4 and w/4 by default, see paper)
 
-        self.metrics(torch.softmax(upsampled_logits, dim=1), labels.squeeze(dim=1))
+        self.iou(torch.softmax(upsampled_logits, dim=1), labels.squeeze(dim=1))
+        self.calibration_error(torch.softmax(upsampled_logits, dim=1), labels.squeeze(dim=1))
         
-        self.log('iou', self.metrics, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_iou', self.iou, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_calibration_error', self.calibration_error, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
 
 
 class DepthFormer(pl.LightningModule):
@@ -236,8 +237,8 @@ class DepthFormer(pl.LightningModule):
         metrics = self.metrics(preds, depths)
         
         self.log('val_rmse', metrics[0], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        #self.log('val_abs_rel', metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        #self.log('val_log10', metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
-        #self.log('val_d1', metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        #self.log('val_d2', metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
-        #self.log('val_d3', metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_abs_rel', metrics[1], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('val_log10', metrics[2], on_step=False, on_epoch=True, prog_bar=False, logger=True, sync_dist=True)
+        self.log('val_d1', metrics[3], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_d2', metrics[4], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
+        self.log('val_d3', metrics[5], on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
