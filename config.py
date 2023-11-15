@@ -20,6 +20,7 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(description='Parser')
 
+parser.add_argument('--task', type=str, default=None, help='seg, depth, or segdepth')
 parser.add_argument('--backbone', type=str, default='b5', help='Backbone of the model')
 parser.add_argument('--batch_size', type=int, default=8, help='Batch Size')
 parser.add_argument('--num_workers', type=int, default=4, help='Number of Workers')
@@ -43,6 +44,7 @@ NUMBER_TRAIN_IMAGES = 795
 NUMBER_VAL_IMAGES = 654
 
 # Model
+TASK = args.task
 BACKBONE = args.backbone
 
 # Training
