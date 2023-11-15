@@ -20,7 +20,7 @@ if __name__ == '__main__':
     data_module = NYUv2DataModule(batch_size=config.BATCH_SIZE, num_workers=config.NUM_WORKERS)
 
     # Initialize the model
-    model = SegDepthFormer()
+    model = DepthFormer()
 
     # Initialize the trainer
     if config.CPU_USAGE:

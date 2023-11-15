@@ -28,13 +28,15 @@ normal_augs:    - backbone b5
 no_augs_b0:     - backbone b0
                 - bs 8
                 - 800 Epochs
+                --> break
 
 normal_augs_b0: - backbone b0
                 - bs 8
                 - 800 Epochs
                 - Normal Augmentations
                 - To check how augmentation usage differs with smaller backbone
-
+                --> break
+                --> Also here the augmentation makes the seg result better but doesnt influence the depth
 
 
 
