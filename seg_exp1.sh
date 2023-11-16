@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo "b0..."
+python train.py --task seg --name seg/exp1-backbone --version b0 --devices 1 --backbone b0
+
+echo "b1..."
+python train.py --task seg --name seg/exp1-backbone --version b1 --devices 1 --backbone b1
+
+echo "b2..."
+python train.py --task seg --name seg/exp1-backbone --version b2 --devices 1 --backbone b2
+
+echo "b3..."
+python train.py --task seg --name seg/exp1-backbone --version b3 --devices 1 --backbone b3
+
+echo "b4..."
+python train.py --task seg --name seg/exp1-backbone --version b4 --devices 1 --backbone b4
+
+echo "b5..."
+python train.py --task seg --name seg/exp1-backbone --version b5 --devices 1 --backbone b5
+
+echo "All training runs finished."
