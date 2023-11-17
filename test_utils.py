@@ -22,7 +22,7 @@ def evaluate_inference_time(model, repetitions, task):
             starter.record()
             
             if task == 'seg':
-                logits = model(image)[0]
+                loss, logits = model(image)
                 logits = torch.nn.functional.interpolate(logits, size=image.shape[-2:], mode="bilinear", align_corners=False)
 
                 probability_map = torch.softmax(logits, dim=1)

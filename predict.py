@@ -18,23 +18,19 @@ if __name__ == '__main__':
     # Initialize the model (and load it to the CPU)
     model = SegDepthFormer()
 
-    if config.CPU_USAGE:
-        checkpoint = torch.load(config.CHECKPOINT, map_location=torch.device('cpu'))
-        model.load_state_dict(checkpoint["state_dict"])
-    else:
-        model = SegDepthFormer.load_from_checkpoint(config.CHECKPOINT)
-        model = model.to(config.DEVICES[0])
+    checkpoint = torch.load(config.CHECKPOINT, map_location=torch.device(config.DEVICES[0]))
+    model.load_state_dict(checkpoint["state_dict"], strict=False)
+
     model.eval()
 
     # Dataset
     dataset = NYUv2Dataset(split='test')
 
     # Predict
-    for i in tqdm(range(100)):
+    for i in tqdm(range(10)):
         image, label, depth = dataset[i]
 
-        if not config.CPU_USAGE:
-            image = image.to(config.DEVICES[0])
+        image = image.to(config.DEVICES[0])
 
         with torch.no_grad():
             seg_logits, depth_preds = model(image.unsqueeze(0))

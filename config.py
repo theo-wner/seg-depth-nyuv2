@@ -29,7 +29,6 @@ parser.add_argument('--learning_rate', type=float, default=6e-5, help='Learning 
 parser.add_argument('--weight_decay', type=float, default=0.01, help='Weight Decay')
 parser.add_argument('--precision', type=str, default='16-mixed', help='Precision')
 parser.add_argument('--devices', type=int, nargs='+', default=[1], help='Devices')
-parser.add_argument('--cpu_usage', type=str2bool, default=False, help='CPU Usage')
 parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint')
 parser.add_argument('--augmentations', type=str2bool, default=True, help='Augmentations')
 parser.add_argument('--name', type=str, default='default', help='Log Directory Name')
@@ -55,7 +54,6 @@ LEARNING_RATE = args.learning_rate
 WEIGHT_DECAY = args.weight_decay
 PRECISION = args.precision
 DEVICES = args.devices
-CPU_USAGE = args.cpu_usage
 CHECKPOINT = args.checkpoint
 AUGMENTATIONS = args.augmentations
 NAME = args.name
