@@ -28,10 +28,7 @@ if __name__ == '__main__':
         model = SegDepthFormer()
 
     # Initialize the trainer
-    if config.CPU_USAGE:
-        trainer = pl.Trainer(logger=logger, max_epochs=config.NUM_EPOCHS, accelerator='cpu', precision=config.PRECISION)
-    else:
-        trainer = pl.Trainer(logger=logger, max_epochs=config.NUM_EPOCHS, accelerator='gpu', precision=config.PRECISION, devices=config.DEVICES)
+    trainer = pl.Trainer(logger=logger, max_epochs=config.NUM_EPOCHS, accelerator='gpu', precision=config.PRECISION, devices=config.DEVICES)
 
     # Train the model
     trainer.fit(model, data_module, ckpt_path=config.CHECKPOINT)
