@@ -73,12 +73,27 @@ class NYUv2Dataset(Dataset):
         return depth
     
     def get_training_augmentation(self):
-        train_augmentation = A.Compose([
-            A.RandomScale(scale_limit=(-0.5, +0.75), p=1), # Relates to Scalings between 0.5 and 1.75
-            A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX), # If the image gets smaller than 480x640    
-            A.RandomCrop(height=480, width=640, p=1),
-            A.HorizontalFlip(p=0.5),
-        ])
+        # Standard Augmentations from the paper
+        if config.AUGMENTATIONS == 'standard':
+            train_augmentation = A.Compose([
+                A.RandomScale(scale_limit=(-0.5, +0.75), p=1), # Relates to Scalings between 0.5 and 1.75
+                A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX), # If the image gets smaller than 480x640    
+                A.RandomCrop(height=480, width=640, p=1),
+                A.HorizontalFlip(p=0.5),
+            ])
+
+        # Randomly rearrange channels of the input RGB image.
+        elif config.AUGMENTATIONS == 'channelshuffle':
+            train_augmentation = A.ChannelShuffle(p=0.5)
+
+        # Apply Contrast Limited Adaptive Histogram Equalization to the input image.
+        elif config.AUGMENTATIONS == 'clahe':
+            train_augmentation = A.CLAHE(p=0.5)
+
+        # Randomly changes the brightness, contrast, and saturation of an image. 
+        elif config.AUGMENTATIONS == 'colorjitter':
+            train_augmentation = A.ColorJitter(p=0.5)
+
         return train_augmentation
 
     def __getitem__(self, index):
@@ -88,10 +103,9 @@ class NYUv2Dataset(Dataset):
 
         # In case of training, apply data augmentation (and ToTensor)
         if self.split == 'train':
-            if config.AUGMENTATIONS:
-                train_augmentation = self.get_training_augmentation()
-                transformed = train_augmentation(image=image, masks=[label, depth])
-                image, label, depth = transformed['image'], transformed['masks'][0], transformed['masks'][1]
+            train_augmentation = self.get_training_augmentation()
+            transformed = train_augmentation(image=image, masks=[label, depth])
+            image, label, depth = transformed['image'], transformed['masks'][0], transformed['masks'][1]
             image = TF.to_tensor(image)
             label = torch.tensor(label, dtype=torch.long).unsqueeze(0)
             depth = torch.tensor(depth, dtype=torch.float).unsqueeze(0)
@@ -107,9 +121,9 @@ class NYUv2Dataset(Dataset):
 
 if __name__ == '__main__':
     # Test the dataset
-    dataset = NYUv2Dataset(split='test')
+    dataset = NYUv2Dataset(split='train')
 
-    for i in tqdm(range(100)):
+    for i in tqdm(range(10)):
         image, label, depth = dataset[i]
         visualize_img_gts(image, label, depth, filename=f'test_{i}_gts.png')
         #visualize_img_depth(image, depth, depth, filename=f'test_{i}_depth.png')

@@ -30,7 +30,7 @@ parser.add_argument('--weight_decay', type=float, default=0.01, help='Weight Dec
 parser.add_argument('--precision', type=str, default='16-mixed', help='Precision')
 parser.add_argument('--devices', type=int, nargs='+', default=[1], help='Devices')
 parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint')
-parser.add_argument('--augmentations', type=str2bool, default=True, help='Augmentations')
+parser.add_argument('--augmentations', type=str, default='standard', help='Augmentations')
 parser.add_argument('--name', type=str, default='default', help='Log Directory Name')
 parser.add_argument('--version', type=str, default=None, help='Log Version')
 
