@@ -24,14 +24,14 @@ b4_iou = df_b4['Value'].to_numpy() * 100
 b5_iou = df_b5['Value'].to_numpy() * 100
 
 # Set the font size and family
-plt.rcParams['font.size'] = '12'
+plt.rcParams['font.size'] = '18'
 plt.rcParams['font.family'] = 'serif'
 
 # Create a figure and an axis with a wider size
 fig, ax1 = plt.subplots(figsize=(8, 5))
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.1)
+fig.subplots_adjust(left=0.13, right=0.98, top=0.97, bottom=0.13)
 
 # Plot the iou for each backbone
 ax1.plot(steps, b0_iou, color='#0072BD', label='b0')  # Darker blue
@@ -44,8 +44,11 @@ ax1.plot(steps, b5_iou, color='#4DBEEE', label='b5')  # Darker cyan
 # Change the decimal separator to comma
 ax1.yaxis.set_major_formatter(ticker.FuncFormatter(comma_decimal))
 
+# Change the x Axis format to k - thousands
+ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}k'))
+
 # Add grid lines each 2.5 percent
-ax1.yaxis.set_major_locator(ticker.MultipleLocator(2.5))
+ax1.yaxis.set_major_locator(ticker.MultipleLocator(5))
 ax1.grid(color='gray', linestyle='dashed')
 
 # Set lower and upper limits for the y-axis
@@ -60,7 +63,7 @@ lines, labels = ax1.get_legend_handles_labels()
 ax1.legend(lines, labels, loc='lower right', ncol=2)
 
 # Increase dpi for higher resolution
-plt.savefig('training_seg_iou.png', dpi=300)
+plt.savefig('seg_training_iou.png', dpi=300)
 
 # Show the plot
 plt.show()
