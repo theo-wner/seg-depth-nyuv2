@@ -2,10 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-# Define a function to change decimal points to commas
-def comma_decimal(x, pos):
-    return str(x).replace('.', ',')
-
 # Read the training iou and ece logs from the csv files into pandas dataframes
 df_b0 = pd.read_csv('../results/results_training_segdepth_iou/exp1-backbone_b0.csv')
 df_b1 = pd.read_csv('../results/results_training_segdepth_iou/exp1-backbone_b1.csv')
@@ -31,7 +27,7 @@ plt.rcParams['font.family'] = 'serif'
 fig, ax1 = plt.subplots(figsize=(8, 5))
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.10, right=0.98, top=0.97, bottom=0.13)
+fig.subplots_adjust(left=0.13, right=0.98, top=0.97, bottom=0.13)
 
 # Plot the iou for each backbone
 ax1.plot(steps, b0, color='#0072BD', label='b0')  # Darker blue
@@ -42,7 +38,7 @@ ax1.plot(steps, b4, color='#77AC30', label='b4')  # Darker green
 ax1.plot(steps, b5, color='#4DBEEE', label='b5')  # Darker cyan
 
 # Change the decimal separator to comma
-#ax1.yaxis.set_major_formatter(ticker.FuncFormatter(comma_decimal))
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
 
 # Change the x Axis format to k - thousands
 ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}k'))
@@ -63,7 +59,7 @@ lines, labels = ax1.get_legend_handles_labels()
 ax1.legend(lines, labels, loc='lower right', ncol=2)
 
 # Increase dpi for higher resolution
-plt.savefig('depth_training_rmse.png', dpi=300)
+plt.savefig('./images/segdepth_training_iou.png', dpi=300)
 
 # Show the plot
 plt.show()

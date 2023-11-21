@@ -2,26 +2,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-# Define a function to change decimal points to commas
-def comma_decimal(x, pos):
-    return str(x).replace('.', ',')
-
 # Read the training iou and ece logs from the csv files into pandas dataframes
-df_b0 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b0.csv')
-df_b1 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b1.csv')
-df_b2 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b2.csv')
-df_b3 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b3.csv')
-df_b4 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b4.csv')
-df_b5 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b5.csv')
+df_b0 = pd.read_csv('../results/results_training_segdepth_d1/exp1-backbone_b0.csv')
+df_b1 = pd.read_csv('../results/results_training_segdepth_d1/exp1-backbone_b1.csv')
+df_b2 = pd.read_csv('../results/results_training_segdepth_d1/exp1-backbone_b2.csv')
+df_b3 = pd.read_csv('../results/results_training_segdepth_d1/exp1-backbone_b3.csv')
+df_b4 = pd.read_csv('../results/results_training_segdepth_d1/exp1-backbone_b4.csv')
+df_b5 = pd.read_csv('../results/results_training_segdepth_d1/exp1-backbone_b5.csv')
 
-# Convert the dataframes to numpy arrays and multiply the iou values by 100 to get percentages
+# Convert the dataframes to numpy arrays
 steps = df_b0['Step'].to_numpy()
-b0 = df_b0['Value'].to_numpy() * 100
-b1 = df_b1['Value'].to_numpy() * 100
-b2 = df_b2['Value'].to_numpy() * 100
-b3 = df_b3['Value'].to_numpy() * 100
-b4 = df_b4['Value'].to_numpy() * 100
-b5 = df_b5['Value'].to_numpy() * 100
+b0 = df_b0['Value'].to_numpy()
+b1 = df_b1['Value'].to_numpy()
+b2 = df_b2['Value'].to_numpy()
+b3 = df_b3['Value'].to_numpy()
+b4 = df_b4['Value'].to_numpy()
+b5 = df_b5['Value'].to_numpy()
 
 # Set the font size and family
 plt.rcParams['font.size'] = '18'
@@ -31,7 +27,7 @@ plt.rcParams['font.family'] = 'serif'
 fig, ax1 = plt.subplots(figsize=(8, 5))
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.13, right=0.98, top=0.97, bottom=0.13)
+fig.subplots_adjust(left=0.11, right=0.98, top=0.97, bottom=0.13)
 
 # Plot the iou for each backbone
 ax1.plot(steps, b0, color='#0072BD', label='b0')  # Darker blue
@@ -47,22 +43,23 @@ ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.rep
 # Change the x Axis format to k - thousands
 ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}k'))
 
-# Add grid lines
+# Add grid lines each 2.5 percent
+#ax1.yaxis.set_major_locator(ticker.MultipleLocator(5))
 ax1.grid(color='gray', linestyle='dashed')
 
 # Set lower and upper limits for the y-axis
-ax1.set_ylim(bottom=10, top=max(b1) + 0.5)
+ax1.set_ylim(bottom=0.5, top=max(b5) + 0.005)
 
 # Add Labels
 ax1.set_xlabel('Iteration')
-ax1.set_ylabel('ECE in %')
+ax1.set_ylabel('d1 in ?')
 
 # Add a legend to the bottom right
 lines, labels = ax1.get_legend_handles_labels()
 ax1.legend(lines, labels, loc='lower right', ncol=2)
 
-# Save the plot
-plt.savefig('./images/seg_training_ece.png', dpi=300)
+# Increase dpi for higher resolution
+plt.savefig('./images/segdepth_training_d1.png', dpi=300)
 
 # Show the plot
 plt.show()

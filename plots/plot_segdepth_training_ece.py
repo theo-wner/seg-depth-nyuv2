@@ -7,12 +7,12 @@ def comma_decimal(x, pos):
     return str(x).replace('.', ',')
 
 # Read the training iou and ece logs from the csv files into pandas dataframes
-df_b0 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b0.csv')
-df_b1 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b1.csv')
-df_b2 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b2.csv')
-df_b3 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b3.csv')
-df_b4 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b4.csv')
-df_b5 = pd.read_csv('../results/results_training_seg_ece/exp1-backbone_b5.csv')
+df_b0 = pd.read_csv('../results/results_training_segdepth_ece/exp1-backbone_b0.csv')
+df_b1 = pd.read_csv('../results/results_training_segdepth_ece/exp1-backbone_b1.csv')
+df_b2 = pd.read_csv('../results/results_training_segdepth_ece/exp1-backbone_b2.csv')
+df_b3 = pd.read_csv('../results/results_training_segdepth_ece/exp1-backbone_b3.csv')
+df_b4 = pd.read_csv('../results/results_training_segdepth_ece/exp1-backbone_b4.csv')
+df_b5 = pd.read_csv('../results/results_training_segdepth_ece/exp1-backbone_b5.csv')
 
 # Convert the dataframes to numpy arrays and multiply the iou values by 100 to get percentages
 steps = df_b0['Step'].to_numpy()
@@ -62,7 +62,7 @@ lines, labels = ax1.get_legend_handles_labels()
 ax1.legend(lines, labels, loc='lower right', ncol=2)
 
 # Save the plot
-plt.savefig('./images/seg_training_ece.png', dpi=300)
+plt.savefig('./images/segdepth_training_ece.png', dpi=300)
 
 # Show the plot
 plt.show()

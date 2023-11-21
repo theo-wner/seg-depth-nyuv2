@@ -7,8 +7,8 @@ plt.rcParams['font.family'] = 'serif'
 
 # Data
 backbones = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']
-val_iou = [39.64, 42.33, 47.90, 51.07, 51.64, 51.93]
-val_calibration_error = [22.92, 23.87, 22.06, 21.17, 20.98, 20.95]
+val_iou = [39.34, 41.98, 48.10, 51.66, 51.44, 52.38]
+val_calibration_error = [23.20, 24.08, 21.88, 20.94, 20.99, 20.95]
 
 # Create a figure and an axis with a wider size
 fig, ax1 = plt.subplots(figsize=(8, 5)) 
@@ -57,7 +57,7 @@ lines2, labels2 = ax2.get_legend_handles_labels()
 ax2.legend(lines + lines2, labels + labels2, loc='center right')
 
 # Increase dpi for higher resolution
-plt.savefig('./images/seg_end_iou_ece.png', dpi=300)
+plt.savefig('./images/segdepth_end_iou_ece.png', dpi=300)
 
 # Show the plot
 plt.show()
