@@ -1,7 +1,5 @@
 #!/bin/bash
 
-<< comment
-
 ##########################################################################################
 # Segmentation
 ##########################################################################################
@@ -23,8 +21,6 @@ python train.py --task seg --name seg/exp1-backbone --version b4 --devices 1 --b
 
 echo "b5..."
 python train.py --task seg --name seg/exp1-backbone --version b5 --devices 1 --backbone b5
-
-comment
 
 
 ##########################################################################################
