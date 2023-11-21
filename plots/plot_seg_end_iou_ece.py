@@ -4,6 +4,7 @@ import matplotlib.ticker as ticker
 # Set the font size and family
 plt.rcParams['font.size'] = '18'
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['text.usetex'] = True
 
 # Data
 backbones = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']

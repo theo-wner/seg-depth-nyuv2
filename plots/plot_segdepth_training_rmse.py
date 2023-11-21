@@ -22,6 +22,7 @@ b5 = df_b5['Value'].to_numpy()
 # Set the font size and family
 plt.rcParams['font.size'] = '18'
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['text.usetex'] = True
 
 # Create a figure and an axis with a wider size
 fig, ax1 = plt.subplots(figsize=(8, 5))
