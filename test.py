@@ -29,9 +29,13 @@ if __name__ == '__main__':
 
     #'''
     # Evaluate the inference time
-    time_mean, time_std = evaluate_inference_time(model, repetitions=10000, task=config.TASK)
+    time_mean, time_std = evaluate_inference_time(model, repetitions=100000, task=config.TASK)
     print(f'Mean inference time: {time_mean} ms')
     print(f'STD inference time: {time_std} ms')
+
+    # Append the results to the results file
+    with open('results_inf_time.txt', 'a') as f:
+        f.write(f'{config.TASK}: {time_mean} ms, {time_std} ms\n')
     #'''
     
     '''
