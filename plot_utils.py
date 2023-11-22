@@ -94,8 +94,8 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
     plt.yticks([])
 
     # Plot the original image in the background and the transparent mask in the foreground
-    plt.imshow(image)
-    plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14, alpha=0.5)
+    #plt.imshow(image)
+    plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
 
     # --------------------------------------------------------------------------------------------
     # Pr Label
@@ -107,8 +107,8 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
     plt.subplot(1, 3, 3)
     plt.xticks([])
     plt.yticks([])
-    plt.imshow(image)
-    plt.imshow(pr_label, cmap=cmap, vmin=0, vmax=14, alpha=0.5)
+    #plt.imshow(image)
+    plt.imshow(pr_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
     '''
     # --------------------------------------------------------------------------------------------
     # Legend
@@ -262,8 +262,8 @@ def visualize_img_gts(image, gt_label, gt_depth, filename='test.png'):
     plt.subplot(1, 3, 2)
     plt.xticks([])
     plt.yticks([])
-    plt.imshow(image)
-    plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14, alpha=0.5)
+    #plt.imshow(image)
+    plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
 
     # --------------------------------------------------------------------------------------------
     # Gt Depth
@@ -375,7 +375,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     plt.xticks([])
     plt.yticks([])
     plt.imshow(image)
-    plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14, alpha=0.5)
+    plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
 
     # --------------------------------------------------------------------------------------------
     # Prediction Mask
@@ -388,7 +388,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     plt.xticks([])
     plt.yticks([])
     plt.imshow(image)
-    plt.imshow(pr_label, cmap=cmap, vmin=0, vmax=14, alpha=0.5)
+    plt.imshow(pr_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
 
     # --------------------------------------------------------------------------------------------
     # Ground Truth Depth Map

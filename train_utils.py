@@ -10,6 +10,48 @@ from torch.optim.lr_scheduler import _LRScheduler
 Defines utility functions and classes
 """
 
+class SegformerForSeg(SegformerForSemanticSegmentation):
+    '''
+    Extension of SegformerForSemanticSegmentation that does Semantic Segmentation
+    '''
+    def __init__(self, config):
+        super().__init__(config)
+
+        # Initialize weights and apply final processing
+        self.post_init()
+
+    def forward(self, images):
+        outputs = self.segformer(
+            images,
+            output_hidden_states=True,
+            return_dict=True,
+        )
+
+        segmentation_logits = self.decode_head(outputs.hidden_states)
+
+        return segmentation_logits
+    
+class SegformerForDepth(SegformerForSemanticSegmentation):
+    '''
+    Extension of SegformerForSemanticSegmentation that calculates the depth
+    '''
+    def __init__(self, config):
+        super().__init__(config)
+
+        # Initialize weights and apply final processing
+        self.post_init()
+
+    def forward(self, images):
+        outputs = self.segformer(
+            images,
+            output_hidden_states=True,
+            return_dict=True,
+        )
+
+        depth_logits = self.decode_head(outputs.hidden_states)
+
+        return depth_logits
+
 class SegformerForSegDepth(SegformerForSemanticSegmentation):
     '''
     Extension of SegformerForSemanticSegmentation that also outputs the depth
@@ -33,7 +75,7 @@ class SegformerForSegDepth(SegformerForSemanticSegmentation):
         segmentation_logits = self.decode_head(outputs.hidden_states)
         depth_logits = self.depth_head(outputs.hidden_states)
 
-        return segmentation_logits, F.relu(depth_logits) # ReLU to ensure positive depth values
+        return segmentation_logits, depth_logits
 
 
 # LR = Initial_LR * (1 - iter / max_iter)^0.9
