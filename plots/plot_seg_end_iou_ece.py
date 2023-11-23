@@ -41,9 +41,10 @@ ax2.set_ylim(bottom=min(val_calibration_error) - 0.2, top=max(val_calibration_er
 # Add Grid
 # Für die linke Y-Achse (ax1)
 ax1.grid(True, which='both', color='#0072BD', linestyle='--')
-
 # Für die rechte Y-Achse (ax2)
 ax2.grid(True, which='both', color='#D95319', linestyle='--')
+# Für vertikale Linien
+ax1.grid(True, which='major', axis='x', color='grey', linestyle='--')
 
 # Add labels to the axes
 ax1.set_xlabel('Backbone')

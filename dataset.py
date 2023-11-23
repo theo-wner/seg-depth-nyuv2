@@ -73,28 +73,27 @@ class NYUv2Dataset(Dataset):
         return depth
     
     def get_training_augmentation(self):
-        # Standard Augmentations from the paper
-        if config.AUGMENTATIONS == 'standard':
-            train_augmentation = A.Compose([
-                A.RandomScale(scale_limit=(-0.5, +0.75), p=1), # Relates to Scalings between 0.5 and 1.75
-                A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX), # If the image gets smaller than 480x640    
-                A.RandomCrop(height=480, width=640, p=1),
-                A.HorizontalFlip(p=0.5),
-            ])
+        augmentations = []
 
-        # Randomly rearrange channels of the input RGB image.
-        elif config.AUGMENTATIONS == 'channelshuffle':
-            train_augmentation = A.ChannelShuffle(p=0.5)
+        # Random Scale
+        if 'rand_scale' in config.AUGMENTATIONS:
+            augmentations.append(A.RandomScale(scale_limit=(-0.5, +0.75), p=1))
+            augmentations.append(A.PadIfNeeded(min_height=480, min_width=640, always_apply=True, border_mode=cv2.BORDER_CONSTANT, value=(0,0,0), mask_value=config.IGNORE_INDEX)) # If the image gets smaller than 480x640
+            augmentations.append(A.RandomCrop(height=480, width=640, p=1))
+        
+        # Random Flip
+        if 'rand_flip' in config.AUGMENTATIONS:
+            augmentations.append(A.HorizontalFlip(p=0.5))
 
-        # Apply Contrast Limited Adaptive Histogram Equalization to the input image.
-        elif config.AUGMENTATIONS == 'clahe':
-            train_augmentation = A.CLAHE(p=0.5)
+        # Color Jitter
+        if 'colorjitter' in config.AUGMENTATIONS:
+            augmentations.append(A.ColorJitter(p=1))
 
-        # Randomly changes the brightness, contrast, and saturation of an image. 
-        elif config.AUGMENTATIONS == 'colorjitter':
-            train_augmentation = A.ColorJitter(p=0.5)
+        # Compose all augmentations
+        train_augmentation = A.Compose(augmentations)
 
         return train_augmentation
+
 
     def __getitem__(self, index):
         image = self._load_image(index)
@@ -121,10 +120,10 @@ class NYUv2Dataset(Dataset):
 
 if __name__ == '__main__':
     # Test the dataset
-    dataset = NYUv2Dataset(split='test')
+    dataset = NYUv2Dataset(split='train')
 
-    for i in tqdm(range(100)):
-        image, label, depth = dataset[i]
+    for i in tqdm(range(10)):
+        image, label, depth = dataset[0]
         visualize_img_gts(image, label, depth, filename=f'test_{i}_gts.png')
 
 
