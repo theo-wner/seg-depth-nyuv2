@@ -8,8 +8,9 @@ plt.rcParams['text.usetex'] = True
 
 # Data
 backbones = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']
-train_time = [3.919, 4.209, 6.278, 7.134, 8.293, 9.203]
-inf_time = [1, 1, 1, 1, 1, 1]
+train_time = [3.919, 4.209, 6.278, 7.134, 8.293, 9.203] # in hours
+inf_time = [7.15, 9.20, 22.96, 29.18, 36.36, 41.85] # in milliseconds
+inf_std = [1.09, 1.17, 1.02, 1.01, 1.02, 1.15] # in milliseconds
 
 # Create a figure and an axis with a wider size
 fig, ax1 = plt.subplots(figsize=(8, 5)) 
