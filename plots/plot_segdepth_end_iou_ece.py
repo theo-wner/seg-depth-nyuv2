@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 # Set the font size and family
-plt.rcParams['font.size'] = '18'
+plt.rcParams['font.size'] = '26'
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['text.usetex'] = True
 
@@ -15,17 +15,22 @@ val_calibration_error = [23.20, 24.08, 21.88, 20.94, 20.99, 20.95]
 fig, ax1 = plt.subplots(figsize=(8, 5)) 
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.13, right=0.87, top=0.97, bottom=0.13)
+fig.subplots_adjust(left=0.14, right=0.86, top=0.97, bottom=0.16)
 
 # Draw points and lines for the first y-axis
 ax1.plot(backbones, val_iou, marker='o', color='#0072BD', label='mIoU')  # Darker blue
 
 # Create the second y-axis
 ax2 = ax1.twinx()
-ax2.plot(backbones, val_calibration_error, marker='o', color='#EDB120', label='ECE')  # Darker yellow
+ax2.plot(backbones, val_calibration_error, marker='o', color='#D95319', label='ECE')  # Darker yellow
 
-# Extend the right limit of the x-axis
-ax1.set_xlim(-0.3, len(backbones) - 0.5 + 0.4)  # Add 0.2 to the right limit
+# Für die linke Y-Achse (ax1)
+ax1.tick_params(axis='y', colors='#0072BD')  # Dunkler Blau
+ax1.set_ylabel('Trainingszeit in h', color='#0072BD')
+
+# Für die rechte Y-Achse (ax2)
+ax2.tick_params(axis='y', colors='#D95319')  # Dunkler Gelb
+ax2.set_ylabel('Inferenzzeit in s', color='#D95319')
 
 # Increase the lower and upper limit of the y-axis for the first plot
 ax1.set_ylim(bottom=min(val_iou) - 1.15, top=max(val_iou) + 0.7)  # Subtract 1 from the lower limit and add 1 to the upper limit
@@ -33,24 +38,21 @@ ax1.set_ylim(bottom=min(val_iou) - 1.15, top=max(val_iou) + 0.7)  # Subtract 1 f
 # Increase the upper limit of the y-axis
 ax2.set_ylim(bottom=min(val_calibration_error) - 0.2, top=max(val_calibration_error) + 0.3)  # Add 1 to the upper limit
 
+# Add Grid
+# Für die linke Y-Achse (ax1)
+ax1.grid(True, which='both', color='#0072BD', linestyle='--')
+
+# Für die rechte Y-Achse (ax2)
+ax2.grid(True, which='both', color='#D95319', linestyle='--')
+
 # Add labels to the axes
 ax1.set_xlabel('Backbone')
-ax1.set_ylabel('mIoU in %')
-ax2.set_ylabel('ECE in %')
+ax1.set_ylabel('mIoU in \%')
+ax2.set_ylabel('ECE in \%')
 
 # Change the decimal separator to comma
 ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
 ax2.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
-
-# Add values to the points
-for i, txt in enumerate(val_iou):
-    ax1.annotate('{:.2f}'.format(txt).replace('.', ','), (backbones[i], val_iou[i] - 0.9), color='k')  # Subtract 0.7 from the y-coordinate
-
-for i, txt in enumerate(val_calibration_error):
-    if i == 0:  # Change the position of the first annotation
-        ax2.annotate('{:.2f}'.format(txt).replace('.', ','), (backbones[i], val_calibration_error[i] - 0.25), color='k')  # Subtract 0.2 from the y-coordinate
-    else:
-        ax2.annotate('{:.2f}'.format(txt).replace('.', ','), (backbones[i], val_calibration_error[i] + 0.1), color='k')  # Add 0.1 to the y-coordinate
 
 # Add a legend to the middle right
 lines, labels = ax1.get_legend_handles_labels()

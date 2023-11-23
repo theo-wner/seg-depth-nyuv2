@@ -24,7 +24,7 @@ b4 = df_b4['Value'].to_numpy() * 100
 b5 = df_b5['Value'].to_numpy() * 100
 
 # Set the font size and family
-plt.rcParams['font.size'] = '18'
+plt.rcParams['font.size'] = '26'
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['text.usetex'] = True
 
@@ -32,7 +32,7 @@ plt.rcParams['text.usetex'] = True
 fig, ax1 = plt.subplots(figsize=(8, 5))
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.13, right=0.98, top=0.97, bottom=0.13)
+fig.subplots_adjust(left=0.14, right=0.86, top=0.97, bottom=0.16)
 
 # Plot the iou for each backbone
 ax1.plot(steps, b0, color='#0072BD', label='b0')  # Darker blue
@@ -56,7 +56,7 @@ ax1.set_ylim(bottom=10, top=max(b1) + 0.5)
 
 # Add Labels
 ax1.set_xlabel('Iteration')
-ax1.set_ylabel('ECE in %')
+ax1.set_ylabel('ECE in \%')
 
 # Add a legend to the bottom right
 lines, labels = ax1.get_legend_handles_labels()

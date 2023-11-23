@@ -20,7 +20,7 @@ b4 = df_b4['Value'].to_numpy()
 b5 = df_b5['Value'].to_numpy()
 
 # Set the font size and family
-plt.rcParams['font.size'] = '18'
+plt.rcParams['font.size'] = '22'
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['text.usetex'] = True
 
@@ -28,7 +28,7 @@ plt.rcParams['text.usetex'] = True
 fig, ax1 = plt.subplots(figsize=(8, 5))
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.11, right=0.98, top=0.97, bottom=0.13)
+fig.subplots_adjust(left=0.11, right=0.89, top=0.97, bottom=0.15)
 
 # Plot the iou for each backbone
 ax1.plot(steps, b0, color='#0072BD', label='b0')  # Darker blue
