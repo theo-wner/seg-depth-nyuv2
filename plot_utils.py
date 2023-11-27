@@ -70,6 +70,7 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
     plt.xticks([])
     plt.yticks([])
     plt.imshow(image)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Label Preprocessing
@@ -98,6 +99,7 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
     # Plot the original image in the background and the transparent mask in the foreground
     #plt.imshow(image)
     plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Pr Label
@@ -111,6 +113,7 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
     plt.yticks([])
     #plt.imshow(image)
     plt.imshow(pr_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
     '''
     # --------------------------------------------------------------------------------------------
     # Legend
