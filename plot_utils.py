@@ -176,6 +176,7 @@ def visualize_img_depth(image, gt_depth, pr_depth, filename='test.png'):
     plt.xticks([])
     plt.yticks([])
     plt.imshow(image)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Gt Depth Map
@@ -186,6 +187,7 @@ def visualize_img_depth(image, gt_depth, pr_depth, filename='test.png'):
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
     plt.imshow(gt_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Pr Depth Map
@@ -196,6 +198,7 @@ def visualize_img_depth(image, gt_depth, pr_depth, filename='test.png'):
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
     plt.imshow(pr_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
     '''
     # --------------------------------------------------------------------------------------------
     # Colorbar
@@ -244,6 +247,7 @@ def visualize_img_gts(image, gt_label, gt_depth, filename='test.png'):
     plt.xticks([])
     plt.yticks([])
     plt.imshow(image)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Label Preprocessing
@@ -269,6 +273,7 @@ def visualize_img_gts(image, gt_label, gt_depth, filename='test.png'):
     plt.yticks([])
     #plt.imshow(image)
     plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Gt Depth
@@ -279,6 +284,7 @@ def visualize_img_gts(image, gt_label, gt_depth, filename='test.png'):
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
     plt.imshow(gt_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Legend
@@ -355,6 +361,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     plt.xticks([])
     plt.yticks([])
     plt.imshow(image)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Label preprocessing
@@ -381,6 +388,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     plt.yticks([])
     plt.imshow(image)
     plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Prediction Mask
@@ -394,6 +402,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     plt.yticks([])
     plt.imshow(image)
     plt.imshow(pr_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Ground Truth Depth Map
@@ -404,6 +413,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
     plt.imshow(gt_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
 
     # --------------------------------------------------------------------------------------------
     # Prediction Depth Map
@@ -414,6 +424,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     cmap = plt.cm.get_cmap('plasma_r')
     norm = plt.Normalize(vmin=0, vmax=10)
     plt.imshow(pr_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
     '''
     # --------------------------------------------------------------------------------------------
     # Legend
