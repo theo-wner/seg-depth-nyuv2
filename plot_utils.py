@@ -48,7 +48,7 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
     # --------------------------------------------------------------------------------------------
     # place subplots
     # --------------------------------------------------------------------------------------------
-    plt.figure(figsize=(16, 3.88))
+    plt.figure(figsize=(16, 3.88), frameon=False)
 
     # Leave everything as it is!!!
     # If then only adjust the wspace value!!!
@@ -64,6 +64,8 @@ def visualize_img_label(image, gt_label, pr_label, filename='test.png'):
     # --------------------------------------------------------------------------------------------
     # Convert Image from Tensor to Image
     image = image.permute(1, 2, 0).numpy()
+    # Make sure that matplotlib doesnt give the image a black border
+    # https://stackoverflow.com/questions/8218608/scipy-savefig-without-frames-axes-only-content
     plt.subplot(1, 3, 1)
     plt.xticks([])
     plt.yticks([])
@@ -154,7 +156,7 @@ def visualize_img_depth(image, gt_depth, pr_depth, filename='test.png'):
     # --------------------------------------------------------------------------------------------
     # place subplots
     # --------------------------------------------------------------------------------------------
-    plt.figure(figsize=(16, 3.88))
+    plt.figure(figsize=(16, 3.88), frameon=False)
 
     plt.subplots_adjust(left=0,
                         bottom=0,
@@ -219,7 +221,7 @@ def visualize_img_gts(image, gt_label, gt_depth, filename='test.png'):
     # --------------------------------------------------------------------------------------------
     # place subplots
     # --------------------------------------------------------------------------------------------
-    plt.figure(figsize=(16, 4.5))
+    plt.figure(figsize=(16, 4.5), frameon=False)
 
     # Leave everything as it is!!!
     # If then only adjust the wspace value!!!
@@ -330,7 +332,7 @@ def visualize_img_label_depth(image, gt_label, pr_label, gt_depth, pr_depth, fil
     # --------------------------------------------------------------------------------------------
     # Place Subplots
     # --------------------------------------------------------------------------------------------
-    plt.figure(figsize=(16, 2.325))
+    plt.figure(figsize=(16, 2.325), frameon=False)
 
     # Leave everything as it is!!!
     # If then only adjust the wspace value!!!

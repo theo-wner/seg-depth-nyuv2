@@ -120,11 +120,11 @@ class NYUv2Dataset(Dataset):
 
 if __name__ == '__main__':
     # Test the dataset
-    dataset = NYUv2Dataset(split='train')
+    dataset = NYUv2Dataset(split='test')
 
-    for i in tqdm(range(10)):
+    for i in tqdm(range(3)):
         image, label, depth = dataset[0]
-        visualize_img_gts(image, label, depth, filename=f'test_{i}_gts.png')
+        visualize_img_label(image, label, label, filename=f'test_{i}_seg.png')
 
 
     
