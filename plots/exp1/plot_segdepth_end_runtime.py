@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 
 # Set the font size and family
 plt.rcParams['font.size'] = '26'
@@ -7,7 +8,7 @@ plt.rcParams['font.family'] = 'serif'
 plt.rcParams['text.usetex'] = True
 
 # Data
-backbones = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']
+backbones = ['B0', 'B1', 'B2', 'B3', 'B4', 'B5']
 train_time = [3.919, 4.209, 6.278, 7.134, 8.293, 9.203] # in hours
 inf_time = [7.15, 9.20, 22.96, 29.18, 36.36, 41.85] # in milliseconds
 inf_std = [1.09, 1.17, 1.02, 1.01, 1.02, 1.15] # in milliseconds
@@ -16,7 +17,7 @@ inf_std = [1.09, 1.17, 1.02, 1.01, 1.02, 1.15] # in milliseconds
 fig, ax1 = plt.subplots(figsize=(8, 5)) 
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.10, right=0.90, top=0.97, bottom=0.16)
+fig.subplots_adjust(left=0.13, right=0.87, top=0.97, bottom=0.16)
 
 # Draw points and lines for the first y-axis
 ax1.plot(backbones, train_time, marker='o', color='#0072BD', label='Trainingszeit')  # Darker blue
@@ -33,19 +34,27 @@ ax1.set_ylabel('Trainingszeit in h', color='#0072BD')
 ax2.tick_params(axis='y', colors='#D95319')  # Dunkler Gelb
 ax2.set_ylabel('Inferenzzeit in s', color='#D95319')
 
-# Increase the lower and upper limit of the y-axis for the first plot
-ax1.set_ylim(bottom=min(train_time) - 1, top=max(train_time) + 0.3)
+# Get current y-axis limits
+y1_lim = ax1.get_ylim()
+y2_lim = ax2.get_ylim()
 
-# Increase the upper limit of the y-axis
-ax2.set_ylim(bottom=min(inf_time) - 1, top=max(inf_time) + 10) 
+# Determine the number of ticks you want on the axes
+num_ticks = 5
+
+# Use numpy linspace to generate evenly spaced ticks
+ticks1 = np.linspace(y1_lim[0], y1_lim[1], num_ticks)
+ticks2 = np.linspace(y2_lim[0], y2_lim[1], num_ticks)
+
+# Set the ticks on the axes
+ax1.set_yticks(ticks1)
+ax2.set_yticks(ticks2)
+
+# Set the limits of the axes
+ax1.set_ylim(y1_lim)
+ax2.set_ylim(y2_lim)
 
 # Add Grid
-# Für die linke Y-Achse (ax1)
-ax1.grid(True, which='both', color='#0072BD', linestyle='--')
-# Für die rechte Y-Achse (ax2)
-ax2.grid(True, which='both', color='#D95319', linestyle='--')
-# Für die vertikale Linien
-ax1.grid(True, which='major', axis='x', color='grey', linestyle='--')
+ax1.grid(True, color='grey', linestyle='--')
 
 # Add labels to the axes
 ax1.set_xlabel('Backbone')
@@ -53,8 +62,8 @@ ax1.set_ylabel('Trainingszeit in h')
 ax2.set_ylabel('Inferenzzeit in ms')
 
 # Change the decimal separator to comma
-ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.0f}'))
-ax2.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.0f}'))
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'))
+ax2.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'))
 
 # Add a legend to the middle right
 lines, labels = ax1.get_legend_handles_labels()

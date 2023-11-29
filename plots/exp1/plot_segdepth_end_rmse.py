@@ -7,7 +7,7 @@ plt.rcParams['font.family'] = 'serif'
 plt.rcParams['text.usetex'] = True
 
 # Data
-backbones = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']
+backbones = ['B0', 'B1', 'B2', 'B3', 'B4', 'B5']
 val_rmse = [0.6789, 0.6253, 0.5657, 0.5457, 0.5316, 0.5262]
 
 # Create a figure and an axis with a wider size

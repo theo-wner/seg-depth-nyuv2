@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 
 # Set the font size and family
 plt.rcParams['font.size'] = '22'
@@ -7,7 +8,7 @@ plt.rcParams['font.family'] = 'serif'
 plt.rcParams['text.usetex'] = True
 
 # Data
-backbones = ['b0', 'b1', 'b2', 'b3', 'b4', 'b5']
+backbones = ['B0', 'B1', 'B2', 'B3', 'B4', 'B5']
 val_iou = [39.64, 42.33, 47.90, 51.07, 51.64, 51.93]
 val_calibration_error = [22.92, 23.87, 22.06, 21.17, 20.98, 20.95]
 
@@ -32,24 +33,32 @@ ax1.set_ylabel('Trainingszeit in h', color='#0072BD')
 ax2.tick_params(axis='y', colors='#D95319')  # Dunkler Gelb
 ax2.set_ylabel('Inferenzzeit in s', color='#D95319')
 
-# Increase the lower and upper limit of the y-axis for the first plot
-ax1.set_ylim(bottom=min(val_iou) - 1.15, top=max(val_iou) + 0.7)  # Subtract 1 from the lower limit and add 1 to the upper limit
+# Get current y-axis limits
+y1_lim = ax1.get_ylim()
+y2_lim = ax2.get_ylim()
 
-# Increase the upper limit of the y-axis
-ax2.set_ylim(bottom=min(val_calibration_error) - 0.2, top=max(val_calibration_error) + 0.3)  # Add 1 to the upper limit
+# Determine the number of ticks you want on the axes
+num_ticks = 5
+
+# Use numpy linspace to generate evenly spaced ticks
+ticks1 = np.linspace(y1_lim[0], y1_lim[1], num_ticks)
+ticks2 = np.linspace(y2_lim[0], y2_lim[1], num_ticks)
+
+# Set the ticks on the axes
+ax1.set_yticks(ticks1)
+ax2.set_yticks(ticks2)
+
+# Set the limits of the axes
+ax1.set_ylim(y1_lim)
+ax2.set_ylim(y2_lim)
 
 # Add Grid
-# Für die linke Y-Achse (ax1)
-ax1.grid(True, which='both', color='#0072BD', linestyle='--')
-# Für die rechte Y-Achse (ax2)
-ax2.grid(True, which='both', color='#D95319', linestyle='--')
-# Für vertikale Linien
-ax1.grid(True, which='major', axis='x', color='grey', linestyle='--')
+ax1.grid(True, color='grey', linestyle='--')
 
 # Add labels to the axes
 ax1.set_xlabel('Backbone')
-ax1.set_ylabel('mIoU in %')
-ax2.set_ylabel('ECE in %')
+ax1.set_ylabel('mIoU in \%')
+ax2.set_ylabel('ECE in \%')
 
 # Change the decimal separator to comma
 ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))

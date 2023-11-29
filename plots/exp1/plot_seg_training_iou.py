@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 # Read the training iou and ece logs from the csv files into pandas dataframes
-df_b0 = pd.read_csv('../results/results_training_seg_iou/exp1-backbone_b0.csv')
-df_b1 = pd.read_csv('../results/results_training_seg_iou/exp1-backbone_b1.csv')
-df_b2 = pd.read_csv('../results/results_training_seg_iou/exp1-backbone_b2.csv')
-df_b3 = pd.read_csv('../results/results_training_seg_iou/exp1-backbone_b3.csv')
-df_b4 = pd.read_csv('../results/results_training_seg_iou/exp1-backbone_b4.csv')
-df_b5 = pd.read_csv('../results/results_training_seg_iou/exp1-backbone_b5.csv')
+df_b0 = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp1/results_training_seg_iou/exp1-backbone_b0.csv')
+df_b1 = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp1/results_training_seg_iou/exp1-backbone_b1.csv')
+df_b2 = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp1/results_training_seg_iou/exp1-backbone_b2.csv')
+df_b3 = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp1/results_training_seg_iou/exp1-backbone_b3.csv')
+df_b4 = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp1/results_training_seg_iou/exp1-backbone_b4.csv')
+df_b5 = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp1/results_training_seg_iou/exp1-backbone_b5.csv')
 
 # Convert the dataframes to numpy arrays and multiply the iou values by 100 to get percentages
 steps = df_b0['Step'].to_numpy()
@@ -31,12 +31,12 @@ fig, ax1 = plt.subplots(figsize=(8, 5))
 fig.subplots_adjust(left=0.12, right=0.88, top=0.97, bottom=0.15)
 
 # Plot the iou for each backbone
-ax1.plot(steps, b0, color='#0072BD', label='b0')  # Darker blue
-ax1.plot(steps, b1, color='#D95319', label='b1')  # Darker orange
-ax1.plot(steps, b2, color='#EDB120', label='b2')  # Darker yellow
-ax1.plot(steps, b3, color='#7E2F8E', label='b3')  # Darker purple
-ax1.plot(steps, b4, color='#77AC30', label='b4')  # Darker green
-ax1.plot(steps, b5, color='#4DBEEE', label='b5')  # Darker cyan
+ax1.plot(steps, b0, color='#0072BD', label='B0')  # Darker blue
+ax1.plot(steps, b1, color='#D95319', label='B1')  # Darker orange
+ax1.plot(steps, b2, color='#EDB120', label='B2')  # Darker yellow
+ax1.plot(steps, b3, color='#7E2F8E', label='B3')  # Darker purple
+ax1.plot(steps, b4, color='#77AC30', label='B4')  # Darker green
+ax1.plot(steps, b5, color='#4DBEEE', label='B5')  # Darker cyan
 
 # Change the decimal separator to comma
 ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
