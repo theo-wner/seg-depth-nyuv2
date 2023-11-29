@@ -29,19 +29,18 @@ class SegFormer(pl.LightningModule):
         self.model = SegformerForSeg(model_config) # this does not load the imagenet weights yet.
         self.model = self.model.from_pretrained(f'nvidia/mit-{config.BACKBONE}', num_labels=config.NUM_CLASSES, return_dict=False)  # this loads the weights
 
-        # Initialize the losse
+        # Initialize the loss
         self.loss = nn.CrossEntropyLoss(ignore_index=config.IGNORE_INDEX)
+
+        # Initialize the metrics
+        self.iou = torchmetrics.JaccardIndex(task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
+        self.calibration_error = torchmetrics.CalibrationError(num_bins=10, task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
 
         # Initialize the optimizer
         self.optimizer = torch.optim.AdamW(params=[
             {'params': self.model.segformer.parameters(), 'lr': config.LEARNING_RATE},
             {'params': self.model.decode_head.parameters(), 'lr': 10 * config.LEARNING_RATE},
         ], lr=config.LEARNING_RATE, weight_decay=config.WEIGHT_DECAY)
-
-        # Initialize the metrics
-        self.iou = torchmetrics.JaccardIndex(task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
-        self.calibration_error = torchmetrics.CalibrationError(num_bins=10, task='multiclass', num_classes=config.NUM_CLASSES, ignore_index=config.IGNORE_INDEX)
-
 
     def configure_optimizers(self):
         iterations_per_epoch = math.ceil(config.NUMBER_TRAIN_IMAGES / (config.BATCH_SIZE * len(config.DEVICES)))
