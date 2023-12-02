@@ -33,6 +33,8 @@ parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint')
 parser.add_argument('--augmentations', type=str, nargs='+', default=['rand_flip', 'rand_scale'], help='Augmentations')
 parser.add_argument('--name', type=str, default='default', help='Log Directory Name')
 parser.add_argument('--version', type=str, default=None, help='Log Version')
+parser.add_argument('--loss_seg_weight', type=float, default=1.0, help='Loss Segmentation Weight')
+parser.add_argument('--loss_depth_weight', type=float, default=1.0, help='Loss Depth Weight')
 
 args = parser.parse_args()
 
@@ -45,6 +47,8 @@ NUMBER_VAL_IMAGES = 654
 # Model
 TASK = args.task
 BACKBONE = args.backbone
+LOSS_SEG_WEIGHT = args.loss_seg_weight
+LOSS_DEPTH_WEIGHT = args.loss_depth_weight
 
 # Training
 BATCH_SIZE = args.batch_size

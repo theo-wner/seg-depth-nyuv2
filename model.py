@@ -216,7 +216,7 @@ class SegDepthFormer(pl.LightningModule):
         
         seg_loss = self.seg_loss(seg_logits, labels.squeeze(dim=1))
         depth_loss = self.depth_loss(depth_preds, depths, valid_mask)
-        total_loss = seg_loss + depth_loss
+        total_loss = config.LOSS_SEG_WEIGHT * seg_loss + config.LOSS_DEPTH_WEIGHT * depth_loss
 
         self.log('seg_loss', seg_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
         self.log('depth_loss', depth_loss, on_step=False, on_epoch=True, prog_bar=True, logger=True, sync_dist=True)
