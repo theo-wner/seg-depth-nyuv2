@@ -3,17 +3,13 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 # Read the training iou and ece logs from the csv files into pandas dataframes
-df_fff = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp2/segdepth/fff_iou.csv')
-df_ttf = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp2/segdepth/ttf_iou.csv')
+df_fff = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp2/segdepth/fff_rmse.csv')
+df_ttf = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-depth-nyuv2/results/exp2/segdepth/ttf_rmse.csv')
 
 # Convert the dataframes to numpy arrays
 steps = df_fff['Step'].to_numpy()
 fff = df_fff['Value'].to_numpy()
 ttf = df_ttf['Value'].to_numpy()
-
-# Convert the values to percent
-fff *= 100
-ttf *= 100
 
 # Set the font size and family
 plt.rcParams['font.size'] = '26'
@@ -31,7 +27,7 @@ ax1.plot(steps, fff, color='#0072BD', label='Keine Augmentations')  # Darker blu
 ax1.plot(steps, ttf, color='#D95319', label='Standard-Augmentations')  # Darker orange
 
 # Change the decimal separator to comma
-ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.2f}'.replace('.', ',')))
 
 # Change the x Axis format to k - thousands
 ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}k'))
@@ -40,19 +36,19 @@ ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}
 #ax1.yaxis.set_major_locator(ticker.MultipleLocator(5))
 ax1.grid(color='gray', linestyle='dashed')
 
-# Set lower and upper limits for the y-axis
-ax1.set_ylim(bottom=46, top=max(ttf) + 0.2)
+# Set lower and upper limits for the y-axiss
+ax1.set_ylim(bottom=0.52, top=0.7)
 
 # Add Labels
 ax1.set_xlabel('Iteration')
-ax1.set_ylabel('mIoU in \%')
+ax1.set_ylabel('RMSE in m')
 
 # Add a legend to the bottom right
 lines, labels = ax1.get_legend_handles_labels()
-ax1.legend(lines, labels, loc='lower right', ncol=1)
+ax1.legend(lines, labels, loc='upper right', ncol=1)
 
 # Increase dpi for higher resolution
-plt.savefig('./images/segdepth_training_iou_exp2.png', dpi=300)
+plt.savefig('./images/segdepth_training_rmse_exp2.png', dpi=300)
 
 # Show the plot
 plt.show()
