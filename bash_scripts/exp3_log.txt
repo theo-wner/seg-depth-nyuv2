@@ -1,0 +1,212 @@
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type                       | Params
+-----------------------------------------------------------------
+0 | model             | SegformerForSeg            | 47.3 M
+1 | loss              | CrossEntropyLoss           | 0     
+2 | iou               | MulticlassJaccardIndex     | 0     
+3 | calibration_error | MulticlassCalibrationError | 0     
+-----------------------------------------------------------------
+47.3 M    Trainable params
+0         Non-trainable params
+47.3 M    Total params
+189.013   Total estimated model params size (MB)
+/usr/local/lib/python3.8/dist-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+`Trainer.fit` stopped: `max_epochs=400` reached.
+-------------------------------------------------------------------------
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type                       | Params
+-----------------------------------------------------------------
+0 | model             | SegformerForSeg            | 47.3 M
+1 | loss              | CrossEntropyLoss           | 0     
+2 | iou               | MulticlassJaccardIndex     | 0     
+3 | calibration_error | MulticlassCalibrationError | 0     
+-----------------------------------------------------------------
+47.3 M    Trainable params
+0         Non-trainable params
+47.3 M    Total params
+189.013   Total estimated model params size (MB)
+/usr/local/lib/python3.8/dist-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+`Trainer.fit` stopped: `max_epochs=400` reached.
+-------------------------------------------------------------------------
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name  | Type              | Params
+--------------------------------------------
+0 | model | SegformerForDepth | 47.2 M
+1 | loss  | RMSLELoss         | 0     
+--------------------------------------------
+47.2 M    Trainable params
+0         Non-trainable params
+47.2 M    Total params
+188.893   Total estimated model params size (MB)
+`Trainer.fit` stopped: `max_epochs=400` reached.
+-------------------------------------------------------------------------
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name  | Type              | Params
+--------------------------------------------
+0 | model | SegformerForDepth | 47.2 M
+1 | loss  | RMSLELoss         | 0     
+--------------------------------------------
+47.2 M    Trainable params
+0         Non-trainable params
+47.2 M    Total params
+188.893   Total estimated model params size (MB)
+/usr/local/lib/python3.8/dist-packages/pytorch_lightning/trainer/call.py:54: Detected KeyboardInterrupt, attempting graceful shutdown...
+Error in atexit._run_exitfuncs:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/multiprocessing/popen_fork.py", line 27, in poll
+    pid, sts = os.waitpid(self.pid, flag)
+KeyboardInterrupt
+-------------------------------------------------------------------------
+Traceback (most recent call last):
+  File "train.py", line 1, in <module>
+    import pytorch_lightning as pl
+  File "/usr/local/lib/python3.8/dist-packages/pytorch_lightning/__init__.py", line 6, in <module>
+    from lightning_utilities import module_available
+  File "/usr/local/lib/python3.8/dist-packages/lightning_utilities/__init__.py", line 6, in <module>
+    from lightning_utilities.core.apply_func import apply_to_collection
+  File "/usr/local/lib/python3.8/dist-packages/lightning_utilities/core/__init__.py", line 4, in <module>
+    from lightning_utilities.core.imports import compare_version, module_available
+  File "/usr/local/lib/python3.8/dist-packages/lightning_utilities/core/imports.py", line 14, in <module>
+    from packaging.requirements import Requirement
+  File "/usr/local/lib/python3.8/dist-packages/packaging/requirements.py", line 10, in <module>
+    from pyparsing import (  # noqa
+  File "/usr/local/lib/python3.8/dist-packages/pyparsing/__init__.py", line 140, in <module>
+    from .core import __diag__, __compat__
+  File "/usr/local/lib/python3.8/dist-packages/pyparsing/core.py", line 5798, in <module>
+    _builtin_exprs: List[ParserElement] = [
+  File "/usr/local/lib/python3.8/dist-packages/pyparsing/core.py", line 5799, in <listcomp>
+    v for v in vars().values() if isinstance(v, ParserElement)
+  File "/usr/lib/python3.8/abc.py", line 98, in __instancecheck__
+    return _abc_instancecheck(cls, instance)
+  File "/usr/lib/python3.8/abc.py", line 102, in __subclasscheck__
+    return _abc_subclasscheck(cls, subclass)
+  File "/usr/lib/python3.8/abc.py", line 102, in __subclasscheck__
+    return _abc_subclasscheck(cls, subclass)
+  File "/usr/lib/python3.8/abc.py", line 102, in __subclasscheck__
+    return _abc_subclasscheck(cls, subclass)
+  [Previous line repeated 1 more time]
+KeyboardInterrupt
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name              | Type                       | Params
+-----------------------------------------------------------------
+0 | model             | SegformerForSeg            | 47.3 M
+1 | loss              | CrossEntropyLoss           | 0     
+2 | iou               | MulticlassJaccardIndex     | 0     
+3 | calibration_error | MulticlassCalibrationError | 0     
+-----------------------------------------------------------------
+47.3 M    Trainable params
+0         Non-trainable params
+47.3 M    Total params
+189.013   Total estimated model params size (MB)
+/usr/local/lib/python3.8/dist-packages/torch/optim/lr_scheduler.py:136: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+`Trainer.fit` stopped: `max_epochs=400` reached.
+-------------------------------------------------------------------------
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name  | Type              | Params
+--------------------------------------------
+0 | model | SegformerForDepth | 47.2 M
+1 | loss  | RMSLELoss         | 0     
+--------------------------------------------
+47.2 M    Trainable params
+0         Non-trainable params
+47.2 M    Total params
+188.893   Total estimated model params size (MB)
+`Trainer.fit` stopped: `max_epochs=400` reached.
+-------------------------------------------------------------------------
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name                  | Type                       | Params
+---------------------------------------------------------------------
+0 | model                 | SegformerForSegDepth       | 50.4 M
+1 | seg_loss              | CrossEntropyLoss           | 0     
+2 | depth_loss            | RMSLELoss                  | 0     
+3 | seg_iou               | MulticlassJaccardIndex     | 0     
+4 | seg_calibration_error | MulticlassCalibrationError | 0     
+---------------------------------------------------------------------
+50.4 M    Trainable params
+0         Non-trainable params
+50.4 M    Total params
+201.617   Total estimated model params size (MB)
+`Trainer.fit` stopped: `max_epochs=400` reached.
+-------------------------------------------------------------------------
+Seed set to 42
+Using 16bit Automatic Mixed Precision (AMP)
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+You are using a CUDA device ('NVIDIA GeForce RTX 3090') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name                  | Type                       | Params
+---------------------------------------------------------------------
+0 | model                 | SegformerForSegDepth       | 50.4 M
+1 | seg_loss              | CrossEntropyLoss           | 0     
+2 | depth_loss            | RMSLELoss                  | 0     
+3 | seg_iou               | MulticlassJaccardIndex     | 0     
+4 | seg_calibration_error | MulticlassCalibrationError | 0     
+---------------------------------------------------------------------
+50.4 M    Trainable params
+0         Non-trainable params
+50.4 M    Total params
+201.617   Total estimated model params size (MB)
+`Trainer.fit` stopped: `max_epochs=400` reached.
+-------------------------------------------------------------------------
