@@ -13,7 +13,7 @@ import shutil
 #os.rmdir('./Abbildungen/')
 
 # Verzeichnis und seine Inhalte löschen
-shutil.rmtree('logs/depth/exp3-lr/larger')
+shutil.rmtree('logs/segdepth/exp5-ignore')
 
 # Neues Verzeichnis erstellen
 #os.mkdir('./extract_dataset/class_labels/')
