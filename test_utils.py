@@ -60,7 +60,7 @@ def evaluate_inference_time(model, repetitions, task):
 Generator that Predicts with the model
 (Yields 5 tensors: image, label, depth, seg_preds, depth_preds)
 '''
-def predict(model, nr_images, task):
+def predict(model, range, task):
 
     dataset = NYUv2Dataset(split='test')
 
@@ -68,7 +68,7 @@ def predict(model, nr_images, task):
 
     # Prediction
     with torch.no_grad():
-        for image in tqdm(range(nr_images)):
+        for image in tqdm(range):
 
             image, label, depth = dataset[image]
             image = image.unsqueeze(0).to(config.DEVICES[0])

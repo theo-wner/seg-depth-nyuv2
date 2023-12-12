@@ -9,7 +9,7 @@ import torchvision.transforms.functional as TF
 import torch
 from torch.nn import functional as F
 import pytorch_lightning as pl
-from plot_utils import visualize_img_gts, visualize_img_depth, visualize_img_label, visualize_img_label_depth
+from plot_utils import *
 import config
 
 
@@ -122,9 +122,8 @@ if __name__ == '__main__':
     # Test the dataset
     dataset = NYUv2Dataset(split='test')
 
-    for i in tqdm(range(3)):
-        image, label, depth = dataset[0]
-        visualize_img_label(image, label, label, filename=f'test_{i}_seg.png')
+    image, label, depth = dataset[0]
+    visualize_gts_prs(image, label, depth, label, depth, label, depth, filename=f'./test{0}.png')
 
 
     

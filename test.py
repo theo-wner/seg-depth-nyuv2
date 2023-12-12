@@ -43,7 +43,7 @@ if __name__ == '__main__':
     model.eval()
     # Use Generator to predict
     cnt = 0
-    for image, label, depth, seg_preds, depth_preds in predict(model, 500, config.TASK):
+    for image, label, depth, seg_preds, depth_preds in predict(model, range(500), config.TASK):
         if config.TASK == 'seg':
             visualize_img_label(image.cpu(), label.cpu(), seg_preds.cpu(), filename=f'seg/seg_{cnt}.png')
         elif config.TASK == 'depth':

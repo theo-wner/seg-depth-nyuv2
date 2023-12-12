@@ -40,6 +40,137 @@ def get_labels_and_colors():
                          'Nicht annotiert' : (1,1,1)}
     return labels_and_colors
 
+'''
+Creates a 2x3 plot of gts and 2 predictions
+'''
+def visualize_gts_prs(image, gt_label, gt_depth, pr_label_mod1, pr_depth_mod2, pr_label_mod3, pr_depth_mod3, filename='test.png'):
+    # --------------------------------------------------------------------------------------------
+    # place subplots
+    # --------------------------------------------------------------------------------------------
+    plt.figure(figsize=(16, 4.75), frameon=False)
+    plt.subplots_adjust(left=0,
+                        bottom=0,
+                        right=1,
+                        top=1,
+                        wspace=0.03,
+                        hspace=0.03)
+    
+    # --------------------------------------------------------------------------------------------
+    # Image
+    # --------------------------------------------------------------------------------------------
+    # Convert Image from Tensor to Image
+    image = image.permute(1, 2, 0).numpy()
+
+    # Definieren Sie die Gesamtgröße des Grids
+    grid_size = (2, 5)
+
+    # Erstellen Sie ein Subplot für das Bild, das sich über beide Zeilen erstreckt, in der ersten Spalte
+    ax1 = plt.subplot2grid(grid_size, (0, 0), rowspan=2, colspan=2)
+    plt.xticks([])
+    plt.yticks([])
+    ax1.imshow(image)
+    ax1.axis('off')
+
+    # --------------------------------------------------------------------------------------------
+    # Label Preprocessing
+    # --------------------------------------------------------------------------------------------
+    gt_label = map_40_to_13(gt_label)
+    pr_label_mod1 = map_40_to_13(pr_label_mod1)
+    pr_label_mod3 = map_40_to_13(pr_label_mod3)
+
+    # Definde Labels and Colors as Dictionary --> Official Colors: https://github.com/ankurhanda/nyuv2-meta-data/issues/4
+    labels_and_colors = get_labels_and_colors()
+
+    # Create Colormap from Dictionary
+    cmap = mcolors.ListedColormap(list(labels_and_colors.values()))
+
+    # --------------------------------------------------------------------------------------------
+    # Gt Label
+    # --------------------------------------------------------------------------------------------
+    # Convert Mask from Tensor to Image
+    gt_label = gt_label.squeeze().numpy()
+    # Set Unlabeled Pixels Value 14 (For the colormap)
+    gt_label[gt_label == 255] = 14
+
+    plt.subplot(2, 5, 3)
+    plt.xticks([])
+    plt.yticks([])
+
+    # Plot the original image in the background and the transparent mask in the foreground
+    #plt.imshow(image)
+    plt.imshow(gt_label, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
+
+    # --------------------------------------------------------------------------------------------
+    # Pr Label  Model 1
+    # --------------------------------------------------------------------------------------------
+    # Convert Mask from Tensor to Image
+    pr_label_mod1 = pr_label_mod1.squeeze().numpy()
+    # Set Unlabeled Pixels to Value 14 (For the colormap)
+    pr_label_mod1[pr_label_mod1 == 255] = 14
+    plt.subplot(2, 5, 4)
+    plt.xticks([])
+    plt.yticks([])
+    #plt.imshow(image)
+    plt.imshow(pr_label_mod1, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
+
+    # --------------------------------------------------------------------------------------------
+    # Pr Label  Model 3
+    # --------------------------------------------------------------------------------------------
+    # Convert Mask from Tensor to Image
+    pr_label_mod3 = pr_label_mod3.squeeze().numpy()
+    # Set Unlabeled Pixels to Value 14 (For the colormap)
+    pr_label_mod3[pr_label_mod3 == 255] = 14
+    plt.subplot(2, 5, 5)
+    plt.xticks([])
+    plt.yticks([])
+    #plt.imshow(image)
+    plt.imshow(pr_label_mod3, cmap=cmap, vmin=0, vmax=14)#, alpha=0.5)
+    plt.axis('off')
+
+    # --------------------------------------------------------------------------------------------
+    # Gt Depth Map
+    # --------------------------------------------------------------------------------------------
+    plt.subplot(2, 5, 8)
+    plt.xticks([])
+    plt.yticks([])
+    cmap = plt.cm.get_cmap('plasma_r')
+    norm = plt.Normalize(vmin=0, vmax=10)
+    plt.imshow(gt_depth.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
+
+    # --------------------------------------------------------------------------------------------
+    # Pr Depth Map Model 2
+    # --------------------------------------------------------------------------------------------
+    plt.subplot(2, 5, 9)
+    plt.xticks([])
+    plt.yticks([])
+    cmap = plt.cm.get_cmap('plasma_r')
+    norm = plt.Normalize(vmin=0, vmax=10)
+    plt.imshow(pr_depth_mod2.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
+
+    # --------------------------------------------------------------------------------------------
+    # Pr Depth Map Model 3
+    # --------------------------------------------------------------------------------------------
+    plt.subplot(2, 5, 10)
+    plt.xticks([])
+    plt.yticks([])
+    cmap = plt.cm.get_cmap('plasma_r')
+    norm = plt.Normalize(vmin=0, vmax=10)
+    plt.imshow(pr_depth_mod3.squeeze().numpy(), cmap=cmap, norm=norm)
+    plt.axis('off')
+
+    # --------------------------------------------------------------------------------------------
+    # Save Figure
+    # --------------------------------------------------------------------------------------------
+    directory = './figures/'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    plt.savefig(os.path.join(directory, filename))
+    plt.close()
+
 
 '''
 Creates a triple of image, GT mask and segmented mask and saves it to directory figures
