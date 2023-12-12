@@ -11,7 +11,8 @@ Evaluates the inference time of a model or predicts with the model
 if __name__ == '__main__':
 
     # Define the relevant pictures
-    images = [136, 0, 166, 305, 138]
+    #images = [136, 0, 166, 305, 138]
+    images = range(500)
 
     # Define Lists to store the results
     images_seg = []
@@ -33,7 +34,7 @@ if __name__ == '__main__':
 
     # ------------------- Segmentation -------------------
     # Define the checkpoint
-    checkpoint = ...
+    checkpoint = 'logs/seg/exp1-backbone/b3/checkpoints/epoch=399-step=40000.ckpt'
 
     # Initialize the model
     model = SegFormer().to(config.DEVICES[0])
@@ -53,7 +54,7 @@ if __name__ == '__main__':
 
     # ------------------- Depth -------------------
     # Define the checkpoint
-    checkpoint = ...
+    checkpoint = 'logs/depth/exp1-backbone/b3/checkpoints/epoch=399-step=40000.ckpt'
 
     # Initialize the model
     model = DepthFormer().to(config.DEVICES[0])
@@ -73,7 +74,7 @@ if __name__ == '__main__':
 
     # ------------------- Segmentation + Depth -------------------
     # Define the checkpoint
-    checkpoint = ...
+    checkpoint = 'logs/segdepth/exp1-backbone/b3/checkpoints/epoch=399-step=40000.ckpt'
 
     # Initialize the model
     model = SegDepthFormer().to(config.DEVICES[0])
@@ -95,4 +96,4 @@ if __name__ == '__main__':
 
     # ------------------- Visualization -------------------
     for i in range(len(images)):
-        visualize_gts_prs(images_segdepth[i], gt_segdepth_label[i], gt_segdepth_depth[i], preds_seg[i], preds_depth[i], preds_segdepth_label[i], preds_segdepth_depth[i], filename=f'./figures/discussion_{i}.png')
+        visualize_gts_prs(images_segdepth[i], gt_segdepth_label[i], gt_segdepth_depth[i], preds_seg[i], preds_depth[i], preds_segdepth_label[i], preds_segdepth_depth[i], filename=f'discussion_{i}.png')

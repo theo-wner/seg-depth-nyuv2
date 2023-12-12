@@ -165,7 +165,7 @@ def visualize_gts_prs(image, gt_label, gt_depth, pr_label_mod1, pr_depth_mod2, p
     # --------------------------------------------------------------------------------------------
     # Save Figure
     # --------------------------------------------------------------------------------------------
-    directory = './figures/'
+    directory = './figures/discussion/'
     if not os.path.exists(directory):
         os.makedirs(directory)
     plt.savefig(os.path.join(directory, filename))
