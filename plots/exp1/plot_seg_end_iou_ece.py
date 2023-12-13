@@ -10,13 +10,13 @@ plt.rcParams['text.usetex'] = True
 # Data
 backbones = ['B0', 'B1', 'B2', 'B3', 'B4', 'B5']
 val_iou = [39.64, 42.33, 47.90, 51.07, 51.64, 51.93]
-val_calibration_error = [22.92, 23.87, 22.06, 21.17, 20.98, 20.95]
+val_calibration_error = [0.2292, 0.2387, 0.2206, 0.2117, 0.2098, 0.2095]
 
 # Create a figure and an axis with a wider size
 fig, ax1 = plt.subplots(figsize=(8, 5)) 
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.12, right=0.88, top=0.97, bottom=0.15)
+fig.subplots_adjust(left=0.13, right=0.87, top=0.97, bottom=0.15)
 
 # Draw points and lines for the first y-axis
 ax1.plot(backbones, val_iou, marker='o', color='#0072BD', label='mIoU')  # Darker blue
@@ -58,11 +58,11 @@ ax1.grid(True, color='grey', linestyle='--')
 # Add labels to the axes
 ax1.set_xlabel('Backbone')
 ax1.set_ylabel('mIoU in \%')
-ax2.set_ylabel('ECE in \%')
+ax2.set_ylabel('ECE')
 
 # Change the decimal separator to comma
 ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
-ax2.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
+ax2.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.3f}'.replace('.', ',')))
 
 # Add a legend to the middle right
 lines, labels = ax1.get_legend_handles_labels()

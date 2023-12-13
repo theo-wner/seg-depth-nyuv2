@@ -9,9 +9,9 @@ larger = pd.read_csv('/home/tkapler/Dokumente/Studium/Bachelorarbeit/Code/seg-de
 
 # Convert the dataframes to numpy arrays and multiply the iou values by 100 to get percentages
 steps = smaller['Step'].to_numpy()
-smaller = smaller['Value'].to_numpy() * 100
-normal = normal['Value'].to_numpy() * 100
-larger = larger['Value'].to_numpy() * 100
+smaller = smaller['Value'].to_numpy()
+normal = normal['Value'].to_numpy()
+larger = larger['Value'].to_numpy()
 
 # Set the font size and family
 plt.rcParams['font.size'] = '26'
@@ -22,7 +22,7 @@ plt.rcParams['text.usetex'] = True
 fig, ax1 = plt.subplots(figsize=(8, 5))
 
 # Adjust the margins of the figure
-fig.subplots_adjust(left=0.14, right=0.86, top=0.97, bottom=0.16)
+fig.subplots_adjust(left=0.16, right=0.85, top=0.94, bottom=0.16)
 
 # Plot the iou for each backbone
 ax1.plot(steps, larger, color='#EDB120', label='$1 \cdot 10^{-4}$')  # Darker yellow
@@ -30,7 +30,7 @@ ax1.plot(steps, normal, color='#D95319', label='$6 \cdot 10^{-5}$')  # Darker or
 ax1.plot(steps, smaller, color='#0072BD', label='$1 \cdot 10^{-5}$')  # Darker blue
 
 # Change the decimal separator to comma
-ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.3f}'.replace('.', ',')))
 
 # Change the x Axis format to k - thousands
 ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}k'))
@@ -40,11 +40,11 @@ ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}
 ax1.grid(color='gray', linestyle='dashed')
 
 # Set lower and upper limits for the y-axis
-ax1.set_ylim(bottom=10, top=max(normal) + 0.5)
+ax1.set_ylim(bottom=0.10, top=max(normal) + 0.005)
 
 # Add Labels
 ax1.set_xlabel('Iteration')
-ax1.set_ylabel('ECE in \%')
+ax1.set_ylabel('ECE')
 
 # Add a legend to the bottom right
 lines, labels = ax1.get_legend_handles_labels()

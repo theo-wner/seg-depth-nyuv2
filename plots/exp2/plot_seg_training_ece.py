@@ -12,8 +12,8 @@ fff = df_fff['Value'].to_numpy()
 ttf = df_ttf['Value'].to_numpy()
 
 # Convert the values to percent
-fff *= 100
-ttf *= 100
+fff
+ttf
 
 # Set the font size and family
 plt.rcParams['font.size'] = '22'
@@ -31,7 +31,7 @@ ax1.plot(steps, fff, color='#0072BD', label='Keine Augmentations')  # Darker blu
 ax1.plot(steps, ttf, color='#D95319', label='Standard-Augmentations')  # Darker orange
 
 # Change the decimal separator to comma
-ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.1f}'.replace('.', ',')))
+ax1.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x:.2f}'.replace('.', ',')))
 
 # Change the x Axis format to k - thousands
 ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}k'))
@@ -41,11 +41,11 @@ ax1.xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{x * 1e-3:g}
 ax1.grid(color='gray', linestyle='dashed')
 
 # Set lower and upper limits for the y-axis
-ax1.set_ylim(bottom=17, top=max(fff) + 0.2)
+ax1.set_ylim(bottom=0.17, top=max(fff) + 0.002)
 
 # Add Labels
 ax1.set_xlabel('Iteration')
-ax1.set_ylabel('ECE in \%')
+ax1.set_ylabel('ECE')
 
 # Add a legend to the bottom right
 lines, labels = ax1.get_legend_handles_labels()
