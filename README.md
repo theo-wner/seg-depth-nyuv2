@@ -2,6 +2,9 @@
 ## Part of Theodor Kapler's bachelors thesis, Karlsruhe Institute of Technology (KIT)
 
 ### General
+GitHub Repository for the implementation:
+https://github.com/theo-wner/seg-depth-nyuv2
+
 Raw Dataset available under:
 https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html
 
